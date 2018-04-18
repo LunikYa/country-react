@@ -1,5 +1,5 @@
 .test {
-    color: green;
+    color: red;
 }
 
 *{
@@ -85,10 +85,11 @@ h1{
     margin-left: 10px;
 }
 
-.list-country{
+.list{
     width: 100%;
     display: inline-block;
     margin-left: 20px;
+    text-align: left;
 }
 
 .conteiner-list{

@@ -1,43 +1,27 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = {
-    entry: ["./src/App.js"],
-    output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: "[name].js"
-    },
+    entry: ["./src/components/App.js"],
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader"
-                }
+                use: ['babel-loader']
             },
             {
                 test: /\.html$/,
-                use: [
-                    {
-                        loader: "html-loader"
-                    }
-                ]
+                use: [{ loader: "html-loader" }]
             },
             {
-                test: /\.scss$/,
-                use: [
-                    {
-                        loader: "style-loader" // creates style nodes from JS strings
-                    },
-                    {
-                        loader: "css-loader" // translates CSS into CommonJS
-                    },
-                    {
-                        loader: "sass-loader" // compiles Sass to CSS
-                    }
-                ]
+                test: /\.css$/,
+                use: [{ loader: "style-loader" },
+                      { loader: "css-loader" }]
             }
         ],
+    },
+    resolve: {
+        extensions: ['*', '.js', '.jsx']
     },
     plugins: [
         new HtmlWebPackPlugin({
@@ -46,6 +30,11 @@ module.exports = {
         })
     ],
     devServer: {
-        contentBase: "./dist"
-    }
+        contentBase: "./dist",
+    },
+    output: {
+        path: path.resolve(__dirname, "dist"),
+        publicPath: '/',
+        filename: "bundle.js"
+    },
 };
