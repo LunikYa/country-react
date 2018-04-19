@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 class Login extends Component {
-    constructor(){
-        super();
-    }
-    
     validateUser = (form) => {
         try {
             if ('vasya@com.ua' !== form.email.value) {

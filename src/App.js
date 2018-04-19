@@ -8,7 +8,6 @@ import httpGet from './components/helpers';
 
 class App extends Component {
     constructor(){
-        super();
         this.state = {
             data: {},
             path: 'login',

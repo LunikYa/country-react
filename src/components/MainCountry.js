@@ -5,10 +5,6 @@ import Country from './Country';
 import City from './City';
 
 class MainCountry extends Component {
-    constructor() {
-        super();
-    }
-
     componentWillMount(){
         let tempCountries = [];
         for (let key in this.props.data) {

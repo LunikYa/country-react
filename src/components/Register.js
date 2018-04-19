@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 class Register extends Component {
-    constructor(){
-        super();
-    }
-
     validateUser = (form) => {
         try {
             if ('vasya@com.ua' === form.email.value) {
@@ -90,8 +86,8 @@ class Register extends Component {
     }
     
     showError = (error, input) => {
-        input.style.border = '1px solid red'
         let errorBox = input.nextElementSibling;
+        input.style.border = '1px solid red'
         errorBox.style.display = 'block';
         errorBox.textContent = error.message;
     }
