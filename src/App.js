@@ -27,10 +27,12 @@ class App extends Component {
                 }
             );
     }
+    
     loged = (data) => {
         this.getData()
         this.setState({ path: 'country' })
     }
+
     registred = (data) => {
         this.getData()
         this.setState({ path: 'country' })
@@ -47,7 +49,8 @@ class App extends Component {
                     ) : (
                     (this.state.path === 'register') ? (<Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
                     ) : (
-                    (this.state.path === 'country') ? ((this.state.isLoaded) ? (<MainCountry data={this.state.data} />) : (<div>Loading...</div>)
+                    (this.state.path === 'country') ? ((this.state.isLoaded) ? (
+                        <MainCountry data={this.state.data} />) : (<div>Loading...</div>)
                     ) : (
                         <div>sadsadsa</div>)))
 

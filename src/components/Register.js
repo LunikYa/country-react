@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 class Register extends Component {
     validateUser = (form) => {
         if ('vasya@com.ua' === form.email.value) {
-            this.showError({ message: '*This email already exists' }, form.email)
+            this.showError('*This email already exists', form.email)
             event.preventDefault()
         } else {
             this.createUser(form);
@@ -34,58 +34,50 @@ class Register extends Component {
 
     isValidemail = (input) => {
         let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        try {
             if (!regExpEmail.test(input.value)) {
-                throw ({ message: '*Email is not valid' })
+                this.showError('*Email is not valid', input)
+                return false
+            } else {
+                input.style.border = '1px solid green';
+                input.nextElementSibling.style.display = 'none';
+                return true
             }
-            input.style.border = '1px solid green';
-            input.nextElementSibling.style.display = 'none';
-            return true
-        } catch (error) {
-            this.showError(error, input)
-            return false
-        }
     }
 
     isValidpassword = (input) => {
-        try {
-            if (/\W/.test(input.value)) {
-                throw ({ message: '*Password can`t include special character' })
-            }
-            else if (input.value.length < 6) {
-                throw ({ message: '*Password must be 6 or more characters' })
-            }
-            input.style.border = '1px solid green';
-            input.nextElementSibling.style.display = 'none';
-            return true
-        } catch (error) {
-            this.showError(error, input)
+        if (/\W/.test(input.value)) {
+            this.showError('*Password can`t include special character', input)
             return false
         }
+        else if (input.value.length < 6) {
+            this.showError('*Password must be 6 or more characters', input)
+            return false
+        }
+        input.style.border = '1px solid green';
+        input.nextElementSibling.style.display = 'none';
+        return true
     }
 
     isValidtext = (input) => {
-        try {
-            if (/\W|\d/.test(input.value[0])) {
-                throw ({ message: '*First char must be letter'})
-            }
-            else if (input.value.length < 3) {
-                throw ({ message: '*This field must be 3 or more characters' })
-            }
+        if (/\W|\d/.test(input.value[0])) {
+            this.showError('*First char must be letter', input)
+            return false
+        }
+        else if (input.value.length < 3) {
+            this.showError('*This field must be 3 or more characters', input)
+            return false
+        } else {
             input.style.border = '1px solid green';
             input.nextElementSibling.style.display = 'none';
             return true
-        } catch (error) {
-            this.showError(error, input)
-            return false
-        }
+        }        
     }
     
     showError = (error, input) => {
         let errorBox = input.nextElementSibling;
         input.style.border = '1px solid red'
         errorBox.style.display = 'block';
-        errorBox.textContent = error.message;
+        errorBox.textContent = error;
     }
 
     hideStatus = (elem) => {
@@ -106,7 +98,7 @@ class Register extends Component {
     render(){
         const { goToLogin, registred} = this.props;
         return (
-            <div className='conteiner-form wrapp'>
+            <div className='conteiner-form'>
                 <h2>Register</h2>
                 <form name='login' noValidate method='post' onSubmit={(e) => { this.validateForm(e) }}>
                     <input type="text" name='name' className='default-input' placeholder='You name'

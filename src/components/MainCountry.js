@@ -62,12 +62,12 @@ class MainCountry extends Component {
             <div>
                 <div className = 'conteiner-list left'>
                     <Filter  filter={this.filterCountries}/>
-                    <Country items={this.state.filtredCountries} choosed={this.updateCities} />
+                    <Country countries={this.state.filtredCountries} choosed={this.updateCities} />
                 </div>
 
                 <div className = 'conteiner-list right'>
                     <Filter filter = {this.filterCities} />
-                    <City items = {this.state.filtredCities} />
+                    <City cities = {this.state.filtredCities} />
                 </div>
             </div>
         )

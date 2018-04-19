@@ -2,18 +2,20 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 class Login extends Component {
+    state = {
+        emailInputClass: 'disable-input',
+        passInputClass: 'disable-input',
+        emailError: '',
+    }
     validateUser = (form) => {
-        try {
-            if ('vasya@com.ua' !== form.email.value) {
-                throw ({ message: '*No such email was found', elem: form.email });
-            } else if ('123456' !== form.password.value) {
-                throw ({ message: '*Password is not valid', elem: form.password })
-            } 
+        if ('vasya@com.ua' !== form.email.value) {
+            this.showError('*No such email was found', form.email);
+        } else if ('123456' !== form.password.value) {
+            this.showError('*Password is not valid', form.password);
+        } else {
             this.props.loged(form.email.value);
-        } catch (error) {
-            this.showError(error, error.elem)
-            event.preventDefault();
-        }        
+        }
+        event.preventDefault();
     }
 
     validateForm = (event) => {
@@ -35,44 +37,42 @@ class Login extends Component {
 
     isValidemail = (input) => {
         let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        try {
             if (!regExpEmail.test(input.value)) {
-                throw ({ message: '*Email is not valid' })
+                this.showError('*Email is not valid', input)
+                return false
+            } else{
+                input.style.border = '1px solid green';
+                input.nextElementSibling.style.display = 'none';
+                return true
             }
-            input.style.border = '1px solid green';
-            input.nextElementSibling.style.display = 'none';
-            return true
-        } catch (error) {
-            this.showError(error, input)
-            return false
-        }
     }
 
     isValidpassword = (input) => {
-        try {
-            if (/\W/.test(input.value)) {
-                throw ({ message: '*Password can`t include special character'})
-            }
-            else if (input.value.length < 6) {
-                throw ({ message: '*Password must be 6 or more characters'})
-            }
+        if (/\W/.test(input.value)) {
+            this.showError('*Password can`t include special character', input)
+            return false
+        }
+        else if (input.value.length < 6) {
+            this.showError('*Password must be 6 or more characters', input)
+            return false
+        }
+        else{
             input.style.border = '1px solid green';
             input.nextElementSibling.style.display = 'none';
             return true
-        } catch (error) {
-            this.showError(error, input)
-            return false
-        }
+        }   
     }
 
     showError = (error, input) => {
         input.style.border = '1px solid red'
         let errorBox = input.nextElementSibling;
-        errorBox.style.display = 'block';
-        errorBox.textContent = error.message;
+            errorBox.style.display = 'block';
+            // this.setState({emailError: error});
+            errorBox.textContent = error;
     }
 
     hideStatus = (elem) => {
+        // this.setState({ inputsClass: 'disable-input'})
         elem.style.border = '1px solid black';
         elem.nextElementSibling.style.display = 'none';
     }
@@ -80,13 +80,12 @@ class Login extends Component {
     render(){
         const { loged, goToRegister } = this.props;
         return (
-            <div className='conteiner-form wrapp'>
+            <div className='conteiner-form'>
                 <h2>Log In</h2>
                 <form name='login' noValidate method='post' onSubmit={(e)=>{this.validateForm(e)}}>
-                    <input type="email" name='email' className='default-input' placeholder='You email' 
+                    <input type='email' name='email' className='default-input' placeholder='You email' 
                            onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>
-                    </div>
+                    <div className='errormsg'>{this.state.emailError} </div>
                     <input type="password" name='password' className='default-input' placeholder='You password' 
                            onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
                     <div className='errormsg'>

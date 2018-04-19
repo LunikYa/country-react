@@ -164,8 +164,7 @@ h2{
     flex-direction: column;
     align-items: center;
 }
-
-  .default-input{
+.default-input{
     width: 280px;
     height: 40px;
     outline: none;
@@ -174,7 +173,33 @@ h2{
     border: 1px solid black;
     background-size: auto 90%;
   }
-
+  .accept-input{
+    width: 280px;
+    height: 40px;
+    outline: none;
+    margin-bottom: 25px;
+    padding-left: 10px;
+    border: 1px solid green;
+    background-size: auto 90%;
+  }
+.disable-input{
+    width: 280px;
+    height: 40px;
+    outline: none;
+    margin-bottom: 25px;
+    padding-left: 10px;
+    border: 1px solid black;
+    background-size: auto 90%;
+  }
+  .error-input{
+    width: 280px;
+    height: 40px;
+    outline: none;
+    margin-bottom: 25px;
+    padding-left: 10px;
+    border: 1px solid red;
+    background-size: auto 90%;
+  }
 .error-box{
     display: none;
     position: absolute;

@@ -7,9 +7,9 @@ class Country extends Component {
         return (
             <div className='list'>
                 <h2>Country</h2>
-                <ul className='list-general' onClick={(e) => choosed(e.target.textContent)}>
-                    {this.props.items.map((x)=>{
-                       return <a><li>{x}</li></a>
+                <ul className='list-general'>
+                    {this.props.countries.map((country, idx)=>{
+                        return <a onClick={() => choosed(country)} key={idx}><li>{country}</li></a>
                     })}
                 </ul>
             </div>

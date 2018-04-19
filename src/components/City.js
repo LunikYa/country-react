@@ -7,8 +7,8 @@ class City extends Component {
             <div className='list'>
                 <h2>City</h2>
                 <ul className='list-general'>
-                    {this.props.items.map((x) => {
-                        return <a><li>{x}</li></a>
+                    {this.props.cities.map((x, i) => {
+                        return <a key={i}><li>{x}</li></a>
                     })}
                 </ul>
             </div>
