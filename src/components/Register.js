@@ -3,15 +3,11 @@ import ReactDOM from 'react-dom';
 
 class Register extends Component {
     validateUser = (form) => {
-        try {
-            if ('vasya@com.ua' === form.email.value) {
-                throw ({ message: '*This email already exists', elem: form.email });
-            } else {
-                this.createUser(form);
-            }
-        } catch (error) {
-            this.showError(error, error.elem)
+        if ('vasya@com.ua' === form.email.value) {
+            this.showError({ message: '*This email already exists' }, form.email)
             event.preventDefault()
+        } else {
+            this.createUser(form);
         }
     }
 

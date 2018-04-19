@@ -8,9 +8,8 @@ class Login extends Component {
                 throw ({ message: '*No such email was found', elem: form.email });
             } else if ('123456' !== form.password.value) {
                 throw ({ message: '*Password is not valid', elem: form.password })
-            } else {
-                this.props.loged(form.email.value);
-            }
+            } 
+            this.props.loged(form.email.value);            
         } catch (error) {
             this.showError(error, error.elem)
             event.preventDefault();
