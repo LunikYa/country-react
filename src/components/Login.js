@@ -9,7 +9,7 @@ class Login extends Component {
             } else if ('123456' !== form.password.value) {
                 throw ({ message: '*Password is not valid', elem: form.password })
             } 
-            this.props.loged(form.email.value);            
+            this.props.loged(form.email.value);
         } catch (error) {
             this.showError(error, error.elem)
             event.preventDefault();

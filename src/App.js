@@ -28,30 +28,32 @@ class App extends Component {
             );
     }
     loged = (data) => {
+        this.getData()
         this.setState({ path: 'country' })
     }
     registred = (data) => {
+        this.getData()
         this.setState({ path: 'country' })
     }
+    
     render(){
-        if(this.state.path === 'login'){
-            return(
-                <Login loged={this.loged} goToRegister={()=>{this.setState({path: 'register'})}}/>
-            )
-        } else if (this.state.path === 'register') {
-            return (
-                <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }}/>
-            )
-        } else if (this.state.path === 'country') {
-            this.getData()
-            return (
-            <div className='wrapp'>
-                <header><h1 className="logo">Country List</h1></header>
-                <main>
-                    { (this.state.isLoaded) ? <MainCountry data={this.state.data} /> : <div>Loading...</div> }
-                </main>
-            </div>)
-        }
+        return(
+        <div className='wrapp'>
+            <header><h1 className="logo">Country List</h1></header>
+            <main>
+                {
+                    (this.state.path === 'login') ? (
+                        <Login loged={this.loged} goToRegister={() => { this.setState({ path: 'register' }) }} />
+                    ) : (
+                    (this.state.path === 'register') ? (<Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
+                    ) : (
+                    (this.state.path === 'country') ? ((this.state.isLoaded) ? (<MainCountry data={this.state.data} />) : (<div>Loading...</div>)
+                    ) : (
+                        <div>sadsadsa</div>)))
+
+                }
+            </main>
+        </div>)
     }
 }
 
