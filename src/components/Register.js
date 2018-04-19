@@ -110,7 +110,7 @@ class Register extends Component {
     render(){
         const { goToLogin, registred} = this.props;
         return (
-            <div className='conteiner-form'>
+            <div className='conteiner-form wrapp'>
                 <h2>Register</h2>
                 <form name='login' noValidate method='post' onSubmit={(e) => { this.validateForm(e) }}>
                     <input type="text" name='name' className='default-input' placeholder='You name'

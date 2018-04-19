@@ -36,14 +36,12 @@ class App extends Component {
     render(){
         if(this.state.path === 'login'){
             return(
-                <main className='wrapp'>
-                    <Login loged={this.loged} goToRegister={()=>{this.setState({path: 'register'})}}/>
-                </main>)
+                <Login loged={this.loged} goToRegister={()=>{this.setState({path: 'register'})}}/>
+            )
         } else if (this.state.path === 'register') {
             return (
-                <main className='wrapp'>
-                    <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }}/>
-                </main>)
+                <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }}/>
+            )
         } else if (this.state.path === 'country') {
             this.getData()
             return (

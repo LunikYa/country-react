@@ -31,8 +31,8 @@ class MainCountry extends Component {
     }
 
     changeCities() {
-        let temp = [];
-        let slice = this.state.filtredCountries.slice(0, 3);
+        let temp = [],
+            slice = this.state.filtredCountries.slice(0, 3);
         if (slice[0] === 'No matches') {
             temp.push('No matches')
         } else {

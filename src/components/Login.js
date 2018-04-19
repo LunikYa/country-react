@@ -81,7 +81,7 @@ class Login extends Component {
     render(){
         const { loged, goToRegister } = this.props;
         return (
-            <div className='conteiner-form'>
+            <div className='conteiner-form wrapp'>
                 <h2>Log In</h2>
                 <form name='login' noValidate method='post' onSubmit={(e)=>{this.validateForm(e)}}>
                     <input type="email" name='email' className='default-input' placeholder='You email' 
