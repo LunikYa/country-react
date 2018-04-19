@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Form from './helpers/Form'
+import Form from './Form'
 
 class Register extends Component {
     constructor(){
@@ -18,7 +18,6 @@ class Register extends Component {
     }
 
     validateUser = (form) => {
-        console.log(form.email)
         try {
             if ('vasya@com.ua' === form.email.value) {
                 throw ({ message: '*This email already exists', elem: form.email });
@@ -27,7 +26,10 @@ class Register extends Component {
                 this.createUser(form);                
             }
         } catch (error) {
-            console.log('error', error)
+            error.elem.style.border = '1px solid red'
+            let errorBox = error.elem.nextElementSibling;
+            errorBox.textContent = error.message;
+            errorBox.style.display = 'block'
             event.preventDefault()
         }
     }
@@ -47,7 +49,7 @@ class Register extends Component {
         return (
             <div className='conteiner-form'>
                 <h2>Register</h2>
-                <Form options={this.state.formOptions} submitForm={(data)=> this.validateUser(data)}/>
+                <Form options={this.state.formOptions} submitForm={(data) => this.validateUser(data)}/>
                 <p className='link' onClick={() => goToLogin()}>Go to Login</p>
             </div>
         )

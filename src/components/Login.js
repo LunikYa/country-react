@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Form from './helpers/Form'
+import Form from './Form'
 
 class Login extends Component {
     constructor(props){
@@ -13,7 +13,7 @@ class Login extends Component {
             }
         }
     }
-    validateUser = (form) => {        
+    validateUser = (form) => {
         try {
             if ('vasya@com.ua' !== form.email.value) {
                 throw ({ message: '*No such email was found', elem: form.email });
@@ -23,11 +23,14 @@ class Login extends Component {
                 this.props.loged('vasya@com.ua');
             }
         } catch (error) {
-            console.log(error);
-            // this.form.showError(error, error.elem)
+            error.elem.style.border = '1px solid red'
+            let errorBox = error.elem.nextElementSibling;
+            errorBox.textContent = error.message;
+            errorBox.style.display = 'block'
             event.preventDefault();
         }
     }
+    
     render(){
         const { loged, goToRegister } = this.props;
         return (
