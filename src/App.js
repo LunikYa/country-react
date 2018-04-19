@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import MainCountry from './components/MainCountry';
 import './main.css';
+import httpGet from './components/helpers';
 
 class App extends Component {
     constructor(){
@@ -54,26 +55,6 @@ class App extends Component {
             </div>)
         }
     }
-}
-
-function httpGet(url) {
-    return new Promise(function (resolve, reject) {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onload = function () {
-            if (this.status == 200) {
-                resolve(JSON.parse(this.response));
-            } else {
-                let error = new Error(this.statusText);
-                error.code = this.status;
-                reject(error);
-            }
-        };
-        xhr.onerror = function () {
-            reject(new Error('Network Error'));
-        };
-        xhr.send();
-    });
 }
 
 const root = document.getElementById('root');

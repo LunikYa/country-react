@@ -11,13 +11,10 @@ class Register extends Component {
             if ('vasya@com.ua' === form.email.value) {
                 throw ({ message: '*This email already exists', elem: form.email });
             } else {
-                this.createUser(form);                
+                this.createUser(form);
             }
         } catch (error) {
-            error.elem.style.border = '1px solid red'
-            let errorBox = error.elem.nextElementSibling;
-            errorBox.textContent = error.message;
-            errorBox.style.display = 'block'
+            this.showError(error, error.elem)
             event.preventDefault()
         }
     }
@@ -74,7 +71,7 @@ class Register extends Component {
             return false
         }
     }
-    
+
     isValidtext = (input) => {
         try {
             if (/\W|\d/.test(input.value[0])) {
@@ -122,19 +119,22 @@ class Register extends Component {
                 <form name='login' noValidate method='post' onSubmit={(e) => { this.validateForm(e) }}>
                     <input type="text" name='name' className='default-input' placeholder='You name'
                         onBlur={(e) => this.isValidtext(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>Error</div>
+                    <div className='errormsg'>
+                    </div>
                     <input type="text" name='surname' className='default-input' placeholder='You surname'
                         onBlur={(e) => this.isValidtext(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>Error</div>
+                    <div className='errormsg'>
+                    </div>
                     <input type="email" name='email' className='default-input' placeholder='You email'
                         onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>Error</div>
+                    <div className='errormsg'>
+                    </div>
                     <input type="password" name='password' className='default-input' placeholder='You password'
                         onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>Error</div>
+                    <div className='errormsg'>
+                    </div>
                     <button className='button'>Submit</button>
                 </form>
-                {/* <Form options={this.state.formOptions} submitForm={(data) => this.validateUser(data)}/> */}
                 <p className='link' onClick={() => goToLogin()}>Go to Login</p>
             </div>
         )

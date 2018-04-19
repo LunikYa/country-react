@@ -13,13 +13,10 @@ class Login extends Component {
             } else if ('123456' !== form.password.value) {
                 throw ({ message: '*Password is not valid', elem: form.password })
             } else {
-                this.props.loged('vasya@com.ua');
+                this.props.loged(form.email.value);
             }
         } catch (error) {
-            error.elem.style.border = '1px solid red'
-            let errorBox = error.elem.nextElementSibling;
-            errorBox.textContent = error.message;
-            errorBox.style.display = 'block'
+            this.showError(error, error.elem)
             event.preventDefault();
         }        
     }
@@ -27,7 +24,6 @@ class Login extends Component {
     validateForm = (event) => {
         let result = true,
             form = event.target;
-
         for (let i = 0; i < form.length; i++) {
             if (form[i].type === 'email') {
                 if (!this.isValidemail(form[i])) {
@@ -90,14 +86,16 @@ class Login extends Component {
         const { loged, goToRegister } = this.props;
         return (
             <div className='conteiner-form'>
-                <h2 onClick={(e) => loged(e.target.textContent)}>Log In</h2>
+                <h2>Log In</h2>
                 <form name='login' noValidate method='post' onSubmit={(e)=>{this.validateForm(e)}}>
                     <input type="email" name='email' className='default-input' placeholder='You email' 
                            onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>Error</div>
+                    <div className='errormsg'>
+                    </div>
                     <input type="password" name='password' className='default-input' placeholder='You password' 
                            onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>Error</div>
+                    <div className='errormsg'>
+                    </div>
                     <button className='button'>Submit</button>
                 </form>
                 <p className='link' onClick={() => goToRegister()}>Go to Register</p>

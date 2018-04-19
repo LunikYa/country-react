@@ -5,14 +5,8 @@ import Country from './Country';
 import City from './City';
 
 class MainCountry extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            allCountries: [],
-            allCities: [],
-            filtredCountries: [],
-            filtredCities: [],
-        }
+    constructor() {
+        super();
     }
 
     componentWillMount(){
@@ -24,7 +18,7 @@ class MainCountry extends Component {
         for (let i = 0; tempCities.length < 50; i++) {
             this.props.data[tempCountries[i]].forEach((x) => { tempCities.push(x) })
         }
-        this.setState((state) => ({ 
+        this.setState(() => ({
             allCountries:     tempCountries, 
             filtredCountries: tempCountries, 
             allCities:        tempCities, 
@@ -62,7 +56,7 @@ class MainCountry extends Component {
             return !(a.toLowerCase().indexOf(value.toLowerCase()) !== 0);
         }))
         if (filtredArr.length === 0) {
-            filtredArr.push('No matches')
+            filtredArr.push('No matches');
         }
         return filtredArr;
     }
