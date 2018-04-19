@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM             from 'react-dom';
-import Login                from './Login';
-import Register             from './Register';
-import MainCountry          from './MainCountry';
-import '../main.css'
+import ReactDOM from 'react-dom';
+import Login from './components/Login';
+import Register from './components/Register';
+import MainCountry from './components/MainCountry';
+import './main.css';
 
 class App extends Component {
     constructor(){
@@ -27,11 +27,9 @@ class App extends Component {
             );
     }
     loged = (data) => {
-        console.log(data)
         this.setState({ path: 'country' })
     }
     registred = (data) => {
-        console.log(data)
         this.setState({ path: 'country' })
     }
     render(){
@@ -39,14 +37,12 @@ class App extends Component {
             return(
                 <main className='wrapp'>
                     <Login loged={this.loged} goToRegister={()=>{this.setState({path: 'register'})}}/>
-                </main>
-            )
+                </main>)
         } else if (this.state.path === 'register') {
             return (
                 <main className='wrapp'>
                     <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }}/>
-                </main>
-            )
+                </main>)
         } else if (this.state.path === 'country') {
             this.getData()
             return (

@@ -10,7 +10,7 @@ class MainCountry extends Component {
         this.state = {
             allCountries: [],
             allCities: [],
-            filtredCountries: [],            
+            filtredCountries: [],
             filtredCities: [],
         }
     }
@@ -68,7 +68,7 @@ class MainCountry extends Component {
     }
     
     render(){
-        return (            
+        return (
             <div>
                 <div className = 'conteiner-list left'>
                     <Filter  filter={this.filterCountries}/>

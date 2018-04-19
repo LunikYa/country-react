@@ -1,18 +1,11 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Form from './Form'
 
 class Login extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            formOptions: {
-                inputs: [{ name: 'email', type: 'email', placeholder: 'You email' },
-                        { name: 'password', type: 'password', placeholder: 'You password' }],
-                name: 'login'
-            }
-        }
+    constructor(){
+        super();
     }
+    
     validateUser = (form) => {
         try {
             if ('vasya@com.ua' !== form.email.value) {
@@ -28,7 +21,69 @@ class Login extends Component {
             errorBox.textContent = error.message;
             errorBox.style.display = 'block'
             event.preventDefault();
+        }        
+    }
+
+    validateForm = (event) => {
+        let result = true,
+            form = event.target;
+
+        for (let i = 0; i < form.length; i++) {
+            if (form[i].type === 'email') {
+                if (!this.isValidemail(form[i])) {
+                    result = false
+                }
+            } else if (form[i].type === 'password') {
+                if (!this.isValidpassword(form[i])) {
+                    result = false
+                }
+            }
         }
+        (result) ? this.validateUser(form) : event.preventDefault();
+    }
+
+    isValidemail = (input) => {
+        let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        try {
+            if (!regExpEmail.test(input.value)) {
+                throw ({ message: '*Email is not valid', elem: input })
+            }
+            input.style.border = '1px solid green';
+            input.nextElementSibling.style.display = 'none';
+            return true
+        } catch (error) {
+            this.showError(error, input)
+            return false
+        }
+    }
+
+    isValidpassword = (input) => {
+        try {
+            if (/\W/.test(input.value)) {
+                throw ({ message: '*Password can`t include special character', elem: input })
+            }
+            else if (input.value.length < 6) {
+                throw ({ message: '*Password must be 6 or more characters', elem: input })
+            }
+            input.style.border = '1px solid green';
+            input.nextElementSibling.style.display = 'none';
+            return true
+        } catch (error) {
+            this.showError(error, input)
+            return false
+        }
+    }
+
+    showError = (error, input) => {
+        input.style.border = '1px solid red'
+        let errorBox = input.nextElementSibling;
+        errorBox.style.display = 'block';
+        errorBox.textContent = error.message;
+    }
+
+    hideStatus = (elem) => {
+        elem.style.border = '1px solid black';
+        elem.nextElementSibling.style.display = 'none';
     }
     
     render(){
@@ -36,7 +91,15 @@ class Login extends Component {
         return (
             <div className='conteiner-form'>
                 <h2 onClick={(e) => loged(e.target.textContent)}>Log In</h2>
-                <Form options={this.state.formOptions} submitForm={(data) => this.validateUser(data)}/>
+                <form name='login' noValidate method='post' onSubmit={(e)=>{this.validateForm(e)}}>
+                    <input type="email" name='email' className='default-input' placeholder='You email' 
+                           onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
+                    <div className='errormsg'>Error</div>
+                    <input type="password" name='password' className='default-input' placeholder='You password' 
+                           onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
+                    <div className='errormsg'>Error</div>
+                    <button className='button'>Submit</button>
+                </form>
                 <p className='link' onClick={() => goToRegister()}>Go to Register</p>
             </div>
         )
