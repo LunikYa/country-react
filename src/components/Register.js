@@ -131,7 +131,7 @@ class Register extends Component {
                     </div>
                     <button className='button'>Submit</button>
                 </form>
-                <p className='link' onClick={() => goToLogin()}>Go to Login</p>
+                <p className='link' onClick={ goToLogin }>Go to Login</p>
             </div>
         )
     }
