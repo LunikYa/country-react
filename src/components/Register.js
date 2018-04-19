@@ -40,7 +40,7 @@ class Register extends Component {
         let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         try {
             if (!regExpEmail.test(input.value)) {
-                throw ({ message: '*Email is not valid', elem: input })
+                throw ({ message: '*Email is not valid' })
             }
             input.style.border = '1px solid green';
             input.nextElementSibling.style.display = 'none';
@@ -54,10 +54,10 @@ class Register extends Component {
     isValidpassword = (input) => {
         try {
             if (/\W/.test(input.value)) {
-                throw ({ message: '*Password can`t include special character', elem: input })
+                throw ({ message: '*Password can`t include special character' })
             }
             else if (input.value.length < 6) {
-                throw ({ message: '*Password must be 6 or more characters', elem: input })
+                throw ({ message: '*Password must be 6 or more characters' })
             }
             input.style.border = '1px solid green';
             input.nextElementSibling.style.display = 'none';
@@ -71,10 +71,10 @@ class Register extends Component {
     isValidtext = (input) => {
         try {
             if (/\W|\d/.test(input.value[0])) {
-                throw ({ message: '*First char must be letter', elem: input })
+                throw ({ message: '*First char must be letter'})
             }
             else if (input.value.length < 3) {
-                throw ({ message: '*This field must be 3 or more characters', elem: input })
+                throw ({ message: '*This field must be 3 or more characters' })
             }
             input.style.border = '1px solid green';
             input.nextElementSibling.style.display = 'none';
