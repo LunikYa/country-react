@@ -7,15 +7,12 @@ import './main.css';
 import httpGet from './components/helpers';
 
 class App extends Component {
-    constructor(){
-        super();
-        this.state = {
+    state = {
             data: {},
             path: 'login',
             isLoaded: false,
         }
-    }
-
+    
     getData = () => {
         httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
             .then(
@@ -29,13 +26,32 @@ class App extends Component {
     }
     
     loged = (data) => {
-        this.getData()
         this.setState({ path: 'country' })
     }
 
     registred = (data) => {
-        this.getData()
         this.setState({ path: 'country' })
+    }
+
+    get currentComponent(){
+        if (this.state.path === 'login'){
+           return <Login loged={this.loged} goToRegister={() => { this.setState({ path: 'register' }) }} />
+        }
+        else if (this.state.path === 'register') {
+            return <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
+        }
+        else if (this.state.path === 'country'){
+            this.getData()
+            if (this.state.isLoaded) {
+                return <MainCountry data={this.state.data} />
+            } else {
+                return <div>Loading...</div>
+            }
+        }
+        else{
+           return <div>This content is empty</div>
+        }
+
     }
     
     render(){
@@ -43,21 +59,7 @@ class App extends Component {
         <div className='wrapp'>
             <header><h1 className="logo">Country List</h1></header>
             <main>
-                {
-                    (this.state.path === 'login') ? 
-                        <Login loged={this.loged} goToRegister={() => { this.setState({ path: 'register' }) }} />
-                     : 
-                    (this.state.path === 'register') ? 
-                        <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
-                     : 
-                    (this.state.path === 'country') ? (this.state.isLoaded) ? 
-                        <MainCountry data={this.state.data} /> 
-                        : 
-                        <div>Loading...</div>
-                     : 
-                        <div>This content is empty</div>
-
-                }
+                { this.currentComponent }
             </main>
         </div>)
     }

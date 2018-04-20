@@ -3,10 +3,26 @@ import ReactDOM from 'react-dom';
 
 class Register extends Component {
     state = {
-        errorPass: '',
-        errorEmail: '',
-        errorName: '',
-        errorSurname: ''
+        email: {
+            error: '',
+            disabled: true,
+            accepted: false,
+        },
+        password: {
+            error: '',
+            disabled: true,
+            accepted: false,
+        },
+        surname: {
+            error: '',
+            disabled: true,
+            accepted: false
+        },
+        name: {
+            error: '',
+            disabled: true,
+            accepted: false
+        },
     }
     validateUser = (form) => {
         if ('vasya@com.ua' === form.email.value) {
@@ -44,8 +60,7 @@ class Register extends Component {
                 this.showError('*Email is not valid', input)
                 return false
             } else {
-                input.className = 'accept-input';
-                this.setState({ errorEmail: '' });
+                this.setState({ email: { error: '', disabled: false, accepted: true } })
                 return true
             }
     }
@@ -59,8 +74,7 @@ class Register extends Component {
             this.showError('*Password must be 6 or more characters', input)
             return false
         }
-        input.className = 'accept-input';
-        this.setState({ errorPassword: '' });
+        this.setState({ password: { error: '', disabled: false, accepted: true } })
         return true
     }
 
@@ -73,40 +87,39 @@ class Register extends Component {
             this.showError('*This field must be 3 or more characters', input)
             return false
         } else {
-            input.className = 'accept-input';
             if(input.name === 'surname')
-                this.setState({ errorSurname: '' });
+                this.setState({ surname: { error: '', disabled: false, accepted: true } })
             else if(input.name === 'name')
-                this.setState({ errorName: '' });
+                this.setState({ name: { error: '', disabled: false, accepted: true } })
             return true
         }        
     }
     
     showError = (error, input) => {
-        input.className = 'error-input';
+        let erroredState = { error: error, disabled: false, accepted: false }
 
         if (input.name === 'email') {
-            this.setState({ errorEmail: error });
+            this.setState({ email: { ...erroredState } });
         } else if (input.name === 'password') {
-            this.setState({ errorPass: error });
+            this.setState({ password: { ...erroredState } });
         } else if (input.name === 'surname') {
-            this.setState({ errorSurname: error });
+            this.setState({ surname: { ...erroredState } });
         } else if (input.name === 'name') {
-            this.setState({ errorName: error });
+            this.setState({ name: { ...erroredState } });
         }
     }
 
     hideStatus = (elem) => {
-        elem.className = 'disable-input';
+        let disabledState = { error: '', disabled: true, accepted: false, errored: false };
 
         if (elem.name === 'email') {
-            this.setState({ errorEmail: '' });
+            this.setState({ email: { ...disabledState } });
         } else if (elem.name === 'password') {
-            this.setState({ errorPass: '' });
+            this.setState({ password: {...disabledState }});
         } else if (elem.name === 'surname') {
-            this.setState({ errorSurname: '' });
+            this.setState({surname: { ...disabledState }});
         } else if (elem.name === 'name') {
-            this.setState({ errorName: '' });
+            this.setState({name: { ...disabledState }});
         }
     }
     
@@ -119,29 +132,65 @@ class Register extends Component {
         };
         this.props.registred(user)
     }
-
+    get emailClass() {
+        if (this.state.email.disabled) {
+            return 'disable-input';
+        } else if (this.state.email.accepted) {
+            return 'accept-input';
+        } else {
+            return 'error-input';
+        }
+    }
+    get passwordClass() {
+        if (this.state.password.disabled) {
+            return 'disable-input';
+        } else if (this.state.password.accepted) {
+            return 'accept-input';
+        } else {
+            return 'error-input';
+        }
+    }
+    get nameClass() {
+        if (this.state.name.disabled) {
+            return 'disable-input';
+        } else if (this.state.name.accepted) {
+            return 'accept-input';
+        } else {
+            return 'error-input';
+        }
+    }
+    get surnameClass() {
+        if (this.state.surname.disabled) {
+            return 'disable-input';
+        } else if (this.state.surname.accepted) {
+            return 'accept-input';
+        } else {
+            return 'error-input';
+        }
+    }
     render(){
-        const { goToLogin, registred} = this.props;
+        const { goToLogin } = this.props;
+    
         return (
             <div className='conteiner-form'>
                 <h2>Register</h2>
                 <form name='login' noValidate method='post' onSubmit={(e) => { this.validateForm(e) }}>
 
-                    <input type="text" name='name' className='default-input' placeholder='You name'
+                    <input type="text" name='name' className={this.nameClass} placeholder='You name'
                         onBlur={(e) => this.isValidtext(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{this.state.errorName}</div>
+                    <div className='errormsg'>{this.state.name.error}</div>
                    
-                    <input type="text" name='surname' className='default-input' placeholder='You surname'
+                    <input type="text" name='surname' className={this.surnameClass} placeholder='You surname'
                         onBlur={(e) => this.isValidtext(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{this.state.errorSurname}</div>
+                    <div className='errormsg'>{this.state.surname.error}</div>
                     
-                    <input type="email" name='email' className='default-input' placeholder='You email'
+                    <input type="email" name='email' className={this.emailClass} placeholder='You email'
                         onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{this.state.errorEmail}</div>
+                    <div className='errormsg'>{this.state.email.error}</div>
                     
-                    <input type="password" name='password' className='default-input' placeholder='You password'
+                    <input type="password" name='password' className={this.passwordClass} placeholder='You password'
                         onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{this.state.errorPass}</div>
+                    <div className='errormsg'>{this.state.password.error}</div>
                     
                     <button className='button'>Submit</button>
                 </form>

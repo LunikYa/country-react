@@ -3,9 +3,17 @@ import ReactDOM from 'react-dom';
 
 class Login extends Component {
     state = {
-            errorPass: '',
-            errorEmail: ''
-        }
+        email: {
+            error: '',
+            disabled: true,
+            accepted: false,
+        },
+        password: {
+            error: '',
+            disabled: true,
+            accepted: false,
+        },
+    }
 
     validateUser = (form) => {
         if ('vasya@com.ua' !== form.email.value) {
@@ -41,8 +49,7 @@ class Login extends Component {
                 this.showError('*Email is not valid', input)
                 return false
             } else{
-                input.className = 'accept-input';
-                this.setState({ errorEmail: '' });
+                this.setState({ email: { error: '', disabled: false, accepted: true } });
                 return true
             }
     }
@@ -57,46 +64,63 @@ class Login extends Component {
             return false
         }
         else{
-            input.className = 'accept-input';
-            this.setState({ errorEmail: '' });
+            this.setState({ password: { error: '', disabled: false, accepted: true } })
             return true
         }   
     }
 
     showError = (error, input) => {
-        input.className = 'error-input';
-
+        let erroredState = { error: error, disabled: false, accepted: false }
+        
         if(input.name === 'email'){
-            this.setState({ errorEmail: error });
+            this.setState({ email: {...erroredState} });
         } else if (input.name === 'password') {            
-            this.setState({ errorPass: error });
+            this.setState({ password: {...erroredState} });
         }
     }
 
     hideStatus = (elem) => {
-        elem.className = 'disable-input';
+        let disabledState = { error: '', disabled: true, accepted: false };
 
         if (elem.name === 'email') {
-            this.setState({ errorEmail: '' });
+            this.setState({ email: { ...disabledState } });
         } else if (elem.name === 'password') {
-            this.setState({ errorPass: '' });
+            this.setState({ password: { ...disabledState } });
         }
     }
-    
+    get emailClass (){
+        if (this.state.email.disabled) {
+            return 'disable-input';
+        } else if (this.state.email.accepted) {
+            return 'accept-input';
+        } else {
+            return 'error-input';
+        }
+    }
+    get passwordClass() {
+        if (this.state.password.disabled) {
+            return 'disable-input';
+        } else if (this.state.password.accepted) {
+            return 'accept-input';
+        } else {
+            return 'error-input';
+        }
+    }
     render(){
-        const { loged, goToRegister } = this.props;
+        const { goToRegister } = this.props;       
+        
         return (
             <div className='conteiner-form'>
                 <h2>Log In</h2>
                 <form name='login' noValidate method='post' onSubmit={(e)=>{this.validateForm(e)}}>
                     
-                    <input type='email' name='email' className='default-input' placeholder='You email'
+                    <input type='email' name='email' className={this.emailClass} placeholder='You email'
                            onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{ this.state.errorEmail } </div>
+                    <div className='errormsg'>{ this.state.email.error } </div>
                     
-                    <input type="password" name='password' className='default-input' placeholder='You password' 
+                    <input type="password" name='password' className={this.passwordClass} placeholder='You password' 
                            onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{ this.state.errorPass }</div>
+                    <div className='errormsg'>{ this.state.password.error }</div>
                     
                     <button className='button'>Submit</button>
                 </form>
