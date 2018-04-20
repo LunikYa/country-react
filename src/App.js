@@ -44,15 +44,18 @@ class App extends Component {
             <header><h1 className="logo">Country List</h1></header>
             <main>
                 {
-                    (this.state.path === 'login') ? (
+                    (this.state.path === 'login') ? 
                         <Login loged={this.loged} goToRegister={() => { this.setState({ path: 'register' }) }} />
-                    ) : (
-                    (this.state.path === 'register') ? (<Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
-                    ) : (
-                    (this.state.path === 'country') ? ((this.state.isLoaded) ? (
-                        <MainCountry data={this.state.data} />) : (<div>Loading...</div>)
-                    ) : (
-                        <div>sadsadsa</div>)))
+                     : 
+                    (this.state.path === 'register') ? 
+                        <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
+                     : 
+                    (this.state.path === 'country') ? (this.state.isLoaded) ? 
+                        <MainCountry data={this.state.data} /> 
+                        : 
+                        <div>Loading...</div>
+                     : 
+                        <div>This content is empty</div>
 
                 }
             </main>

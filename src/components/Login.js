@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 
 class Login extends Component {
     state = {
-        emailInputClass: 'disable-input',
-        passInputClass: 'disable-input',
-        emailError: '',
-    }
+            errorPass: '',
+            errorEmail: ''
+        }
+
     validateUser = (form) => {
         if ('vasya@com.ua' !== form.email.value) {
             this.showError('*No such email was found', form.email);
@@ -41,8 +41,8 @@ class Login extends Component {
                 this.showError('*Email is not valid', input)
                 return false
             } else{
-                input.style.border = '1px solid green';
-                input.nextElementSibling.style.display = 'none';
+                input.className = 'accept-input';
+                this.setState({ errorEmail: '' });
                 return true
             }
     }
@@ -57,24 +57,30 @@ class Login extends Component {
             return false
         }
         else{
-            input.style.border = '1px solid green';
-            input.nextElementSibling.style.display = 'none';
+            input.className = 'accept-input';
+            this.setState({ errorEmail: '' });
             return true
         }   
     }
 
     showError = (error, input) => {
-        input.style.border = '1px solid red'
-        let errorBox = input.nextElementSibling;
-            errorBox.style.display = 'block';
-            // this.setState({emailError: error});
-            errorBox.textContent = error;
+        input.className = 'error-input';
+
+        if(input.name === 'email'){
+            this.setState({ errorEmail: error });
+        } else if (input.name === 'password') {            
+            this.setState({ errorPass: error });
+        }
     }
 
     hideStatus = (elem) => {
-        // this.setState({ inputsClass: 'disable-input'})
-        elem.style.border = '1px solid black';
-        elem.nextElementSibling.style.display = 'none';
+        elem.className = 'disable-input';
+
+        if (elem.name === 'email') {
+            this.setState({ errorEmail: '' });
+        } else if (elem.name === 'password') {
+            this.setState({ errorPass: '' });
+        }
     }
     
     render(){
@@ -83,13 +89,15 @@ class Login extends Component {
             <div className='conteiner-form'>
                 <h2>Log In</h2>
                 <form name='login' noValidate method='post' onSubmit={(e)=>{this.validateForm(e)}}>
-                    <input type='email' name='email' className='default-input' placeholder='You email' 
+                    
+                    <input type='email' name='email' className='default-input' placeholder='You email'
                            onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{this.state.emailError} </div>
+                    <div className='errormsg'>{ this.state.errorEmail } </div>
+                    
                     <input type="password" name='password' className='default-input' placeholder='You password' 
                            onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>
-                    </div>
+                    <div className='errormsg'>{ this.state.errorPass }</div>
+                    
                     <button className='button'>Submit</button>
                 </form>
                 <p className='link' onClick={ goToRegister }>Go to Register</p>
