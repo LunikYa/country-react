@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import Filter from './Filter';
 import Country from './Country';
 import City from './City';

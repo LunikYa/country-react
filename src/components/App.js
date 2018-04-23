@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Login from './components/Login';
-import Register from './components/Register';
-import MainCountry from './components/MainCountry';
-import './main.css';
-import httpGet from './components/helpers';
+import Login from './Login';
+import Register from './Register';
+import MainCountry from './MainCountry';
+import '../main.css';
+import httpGet from './helpers';
+import store from '../store';
+import { addCountries, createUser} from '../actions'
+import { connect } from 'react-redux'
 
 class App extends Component {
     state = {
@@ -12,12 +14,14 @@ class App extends Component {
             path: 'login',
             isLoaded: false,
         }
-    
+
     getData = () => {
         httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
             .then(
                 response => {
                     this.setState({ data: response, isLoaded: true });
+                    this.props.dispatch(addCountries(response))
+                    console.log(store.getState(), this.props.data)                    
                 },
                 reject => {
                     console.log(reject)
@@ -26,7 +30,12 @@ class App extends Component {
     }
     
     loged = (data) => {
-        this.setState({ path: 'country' })
+        try {
+            this.props.dispatch(createUser({ user: data }))
+            this.setState({ path: 'country' })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     registred = (data) => {
@@ -41,17 +50,16 @@ class App extends Component {
             return <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
         }
         else if (this.state.path === 'country'){
-            this.getData()
             if (this.state.isLoaded) {
                 return <MainCountry data={this.state.data} />
             } else {
+                this.getData()
                 return <div>Loading...</div>
             }
         }
         else{
            return <div>This content is empty</div>
         }
-
     }
     
     render(){
@@ -65,5 +73,11 @@ class App extends Component {
     }
 }
 
-const root = document.getElementById('root');
-root ? ReactDOM.render(<App />, root) : false;
+function mapStateToProps(state){
+    console.log('mapStateProps', state)
+    return {
+        data: state.countriesReducer.data,
+
+    }
+}
+export default connect(mapStateToProps)(App)
