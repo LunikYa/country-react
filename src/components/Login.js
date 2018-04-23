@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 
 class Login extends Component {
     state = {
         email: {
             error: '',
-            disabled: true,
             accepted: false,
         },
         password: {
             error: '',
-            disabled: true,
             accepted: false,
         },
     }
@@ -71,7 +68,7 @@ class Login extends Component {
 
     showError = (error, input) => {
         let erroredState = { error: error, disabled: false, accepted: false }
-        
+
         if(input.name === 'email'){
             this.setState({ email: {...erroredState} });
         } else if (input.name === 'password') {            
@@ -89,26 +86,26 @@ class Login extends Component {
         }
     }
     get emailClass (){
-        if (this.state.email.disabled) {
-            return 'disable-input';
-        } else if (this.state.email.accepted) {
+        if (this.state.email.accepted) {
             return 'accept-input';
-        } else {
+        } else if (this.state.email.error.length) {
             return 'error-input';
-        }
+        } else if (!this.state.email.accepted && !this.state.email.error.length) {
+            return 'disable-input';
+        } 
     }
     get passwordClass() {
-        if (this.state.password.disabled) {
-            return 'disable-input';
-        } else if (this.state.password.accepted) {
+        if (this.state.password.accepted) {
             return 'accept-input';
-        } else {
+        } else if(this.state.password.error.length){
             return 'error-input';
+        } else if (!this.state.password.accepted && !this.state.password.error.length) {
+            return 'disable-input';
         }
     }
     render(){
         const { goToRegister } = this.props;       
-        
+        const { email, password } = this.state;
         return (
             <div className='conteiner-form'>
                 <h2>Log In</h2>
@@ -116,11 +113,11 @@ class Login extends Component {
                     
                     <input type='email' name='email' className={this.emailClass} placeholder='You email'
                            onBlur={(e) => this.isValidemail(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{ this.state.email.error } </div>
+                    <div className='errormsg'>{ email.error } </div>
                     
                     <input type="password" name='password' className={this.passwordClass} placeholder='You password' 
                            onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
-                    <div className='errormsg'>{ this.state.password.error }</div>
+                    <div className='errormsg'>{ password.error }</div>
                     
                     <button className='button'>Submit</button>
                 </form>
