@@ -77,12 +77,12 @@ class Login extends Component {
     }
 
     hideStatus = (elem) => {
-        let disabledState = { error: '', accepted: false };
+        let defaultState = { error: '', accepted: false };
 
         if (elem.name === 'email') {
-            this.setState({ email: { ...disabledState } });
+            this.setState({ email: { ...defaultState } });
         } else if (elem.name === 'password') {
-            this.setState({ password: { ...disabledState } });
+            this.setState({ password: { ...defaultState } });
         }
     }
     get emailClass (){
@@ -90,7 +90,7 @@ class Login extends Component {
             return 'accept-input';
         } else if (this.state.email.error.length) {
             return 'error-input';
-        } else if (!this.state.email.accepted && !this.state.email.error.length) {
+        } else {
             return 'default-input';
         } 
     }
@@ -99,7 +99,7 @@ class Login extends Component {
             return 'accept-input';
         } else if(this.state.password.error.length){
             return 'error-input';
-        } else if (!this.state.password.accepted && !this.state.password.error.length) {
+        } else {
             return 'default-input';
         }
     }
