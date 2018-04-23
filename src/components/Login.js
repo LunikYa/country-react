@@ -46,7 +46,7 @@ class Login extends Component {
                 this.showError('*Email is not valid', input)
                 return false
             } else{
-                this.setState({ email: { error: '', disabled: false, accepted: true } });
+                this.setState({ email: { error: '', accepted: true } });
                 return true
             }
     }
@@ -61,13 +61,13 @@ class Login extends Component {
             return false
         }
         else{
-            this.setState({ password: { error: '', disabled: false, accepted: true } })
+            this.setState({ password: { error: '',  accepted: true } })
             return true
         }   
     }
 
     showError = (error, input) => {
-        let erroredState = { error: error, disabled: false, accepted: false }
+        let erroredState = { error: error,  accepted: false }
 
         if(input.name === 'email'){
             this.setState({ email: {...erroredState} });
@@ -77,7 +77,7 @@ class Login extends Component {
     }
 
     hideStatus = (elem) => {
-        let disabledState = { error: '', disabled: true, accepted: false };
+        let disabledState = { error: '', accepted: false };
 
         if (elem.name === 'email') {
             this.setState({ email: { ...disabledState } });
@@ -91,7 +91,7 @@ class Login extends Component {
         } else if (this.state.email.error.length) {
             return 'error-input';
         } else if (!this.state.email.accepted && !this.state.email.error.length) {
-            return 'disable-input';
+            return 'default-input';
         } 
     }
     get passwordClass() {
@@ -100,7 +100,7 @@ class Login extends Component {
         } else if(this.state.password.error.length){
             return 'error-input';
         } else if (!this.state.password.accepted && !this.state.password.error.length) {
-            return 'disable-input';
+            return 'default-input';
         }
     }
     render(){
