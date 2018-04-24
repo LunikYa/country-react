@@ -2,58 +2,24 @@ import React, { Component } from 'react';
 import Login from './Login';
 import Register from './Register';
 import MainCountry from './MainCountry';
+import { getCountries } from '../store/actions';
+import { connect } from 'react-redux';
 import '../main.css';
-import httpGet from './helpers';
-import store from '../store';
-import { addCountries, createUser} from '../actions'
-import { connect } from 'react-redux'
 
 class App extends Component {
-    state = {
-            data: {},
-            path: 'login',
-            isLoaded: false,
-        }
-
-    getData = () => {
-        httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
-            .then(
-                response => {
-                    this.setState({ data: response, isLoaded: true });
-                    this.props.dispatch(addCountries(response))
-                    console.log(store.getState(), this.props.data)                    
-                },
-                reject => {
-                    console.log(reject)
-                }
-            );
-    }
     
-    loged = (data) => {
-        try {
-            this.props.dispatch(createUser({ user: data }))
-            this.setState({ path: 'country' })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    registred = (data) => {
-        this.setState({ path: 'country' })
-    }
-
     get currentComponent(){
-        if (this.state.path === 'login'){
-           return <Login loged={this.loged} goToRegister={() => { this.setState({ path: 'register' }) }} />
+        if (this.props.path === 'login'){
+           return <Login />
+        } 
+        else if (this.props.path === 'register') {
+            return <Register />
         }
-        else if (this.state.path === 'register') {
-            return <Register registred={this.registred} goToLogin={() => { this.setState({ path: 'login' }) }} />
-        }
-        else if (this.state.path === 'country'){
-            if (this.state.isLoaded) {
-                return <MainCountry data={this.state.data} />
+        else if (this.props.path === 'country'){
+            if (this.props.completed) {
+                return <MainCountry />
             } else {
-                this.getData()
+                this.props.dispatch(getCountries())
                 return <div>Loading...</div>
             }
         }
@@ -74,10 +40,9 @@ class App extends Component {
 }
 
 function mapStateToProps(state){
-    console.log('mapStateProps', state)
     return {
-        data: state.countriesReducer.data,
-
+        completed: state.countriesState.completed,
+        path: state.currentPath.path
     }
 }
 export default connect(mapStateToProps)(App)

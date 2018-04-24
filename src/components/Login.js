@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { changePath, loginUser } from '../store/actions'
+import { connect } from 'react-redux';
 
 class Login extends Component {
     state = {
@@ -18,7 +20,8 @@ class Login extends Component {
         } else if ('123456' !== form.password.value) {
             this.showError('*Password is not valid', form.password);
         } else {
-            this.props.loged(form.email.value);
+            this.props.dispatch(loginUser(form.email.value));
+            this.props.dispatch(changePath('country'))
         }
         event.preventDefault();
     }
@@ -103,8 +106,7 @@ class Login extends Component {
             return 'default-input';
         }
     }
-    render(){
-        const { goToRegister } = this.props;       
+    render(){ 
         const { email, password } = this.state;
         return (
             <div className='conteiner-form'>
@@ -121,10 +123,11 @@ class Login extends Component {
                     
                     <button className='button'>Submit</button>
                 </form>
-                <p className='link' onClick={ goToRegister }>Go to Register</p>
+               
+                <p className='link' onClick={(e)=>{this.props.dispatch(changePath('register'))}}>Go to Register</p>
             </div>
         )
     }
 }
 
-export default Login;
+export default connect(null)(Login)

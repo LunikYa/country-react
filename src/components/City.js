@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class City extends Component {
     render() {
@@ -14,5 +15,9 @@ class City extends Component {
         )
     }
 }
-
-export default City;
+function map(state) {
+    return {
+        cities: state.countriesState.filtredCities,
+    }
+}
+export default connect(map)(City)

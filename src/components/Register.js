@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { changePath, registerUser } from '../store/actions';
+import store from '../store/store';
 
 class Register extends Component {
     state = {
@@ -119,13 +121,20 @@ class Register extends Component {
     }
     
     createUser = (form) => {
-        let user = {
-            email: form['email'].value,
-            name: form['name'].value,
-            surname: form['surname'].value,
-            password: form['password'].value
-        };
-        this.props.registred(user)
+        event.preventDefault()
+        try {
+            let user = {
+                email: form['email'].value,
+                name: form['name'].value,
+                surname: form['surname'].value,
+                password: form['password'].value
+            };
+            store.dispatch(registerUser(user));
+            store.dispatch(changePath('country'))
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     get emailClass() {
@@ -169,7 +178,6 @@ class Register extends Component {
     }
     
     render(){
-        const { goToLogin } = this.props;
         const {name, surname, email, password} = this.state;
         return (
             <div className='conteiner-form'>
@@ -194,7 +202,7 @@ class Register extends Component {
                     
                     <button className='button'>Submit</button>
                 </form>
-                <p className='link' onClick={ goToLogin }>Go to Login</p>
+                <p className='link' onClick={(e) => { store.dispatch(changePath('login')) }}>Go to Login</p>
             </div>
         )
     }
