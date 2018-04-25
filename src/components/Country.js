@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { choosedCountry } from '../store/actions'
+import { connect } from 'react-redux';
+import { choosedCountry } from '../store/actions';
 
 class Country extends Component {
     render() {
@@ -22,4 +22,4 @@ function map(state) {
         countries: state.countriesState.filtredCountries,
     }
 }
-export default connect(map)(Country)
+export default connect(map)(Country);

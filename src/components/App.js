@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import '../main.css';
 
 class App extends Component {
-    
     get currentComponent(){
         if (this.props.path === 'login'){
            return <Login />
@@ -45,4 +44,4 @@ function mapStateToProps(state){
         path: state.currentPath.path
     }
 }
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(App);

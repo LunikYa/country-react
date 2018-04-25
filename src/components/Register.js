@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { changePath, registerUser } from '../store/actions';
-import store from '../store/store';
+import { connect } from 'react-redux';
 
 class Register extends Component {
     state = {
@@ -22,14 +22,16 @@ class Register extends Component {
         },
     }
     validateUser = (form) => {
-        if ('vasya@com.ua' === form.email.value) {
-            this.showError('*This email already exists', form.email)
-            event.preventDefault()
-        } else {
-            this.createUser(form);
+        for (let i = 0; i < this.props.users.length; i++) {
+            if (this.props.users[i].email === form.email.value) {
+                this.showError('*This email already exists', form.email)
+                event.preventDefault()
+                return false
+            }
         }
+            this.createUser(form);
     }
-
+    
     validateForm = (event) => {
         let result = true,
             form = event.target;
@@ -129,8 +131,8 @@ class Register extends Component {
                 surname: form['surname'].value,
                 password: form['password'].value
             };
-            store.dispatch(registerUser(user));
-            store.dispatch(changePath('country'))
+            this.props.dispatch(registerUser(user));
+            this.props.dispatch(changePath('country'))
         } catch (error) {
             console.log(error)
         }
@@ -202,10 +204,14 @@ class Register extends Component {
                     
                     <button className='button'>Submit</button>
                 </form>
-                <p className='link' onClick={(e) => { store.dispatch(changePath('login')) }}>Go to Login</p>
+                <p className='link' onClick={(e) => { this.props.dispatch(changePath('login')) }}>Go to Login</p>
             </div>
         )
     }
 }
-
-export default Register;
+function mapStateTopProps(state) {
+    return {
+        users: state.userState.users
+    }
+}
+export default connect(mapStateTopProps)(Register);

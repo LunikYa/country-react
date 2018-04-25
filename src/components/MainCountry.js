@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Country from './Country';
 import City from './City';
-import { filterCity, filterCountry, changeCitiesBySlicedCountries} from '../store/actions'
-import { connect } from 'react-redux'
+import { filterCity, filterCountry, changeCitiesBySlicedCountries} from '../store/actions';
+import { connect } from 'react-redux';
 
 class MainCountry extends Component {   
     updateLists = (val) => {
@@ -28,4 +28,4 @@ class MainCountry extends Component {
 }
 
 
-export default connect(null)(MainCountry)
+export default connect(null)(MainCountry);

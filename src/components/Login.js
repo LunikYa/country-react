@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { changePath, loginUser } from '../store/actions'
+import { changePath, loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 
 class Login extends Component {
@@ -15,12 +15,20 @@ class Login extends Component {
     }
 
     validateUser = (form) => {
-        if ('vasya@com.ua' !== form.email.value) {
+        let tempUser = {};
+  
+        for(let i = 0; i < this.props.users.length; i++){
+            if (this.props.users[i].email === form.email.value){
+                tempUser = { ...this.props.users[i]}
+            }
+        }
+
+        if (JSON.stringify(tempUser)==='{}'){
             this.showError('*No such email was found', form.email);
-        } else if ('123456' !== form.password.value) {
+        } else if (tempUser.password !== form.password.value){
             this.showError('*Password is not valid', form.password);
         } else {
-            this.props.dispatch(loginUser(form.email.value));
+            this.props.dispatch(loginUser(tempUser.email));
             this.props.dispatch(changePath('country'))
         }
         event.preventDefault();
@@ -129,5 +137,10 @@ class Login extends Component {
         )
     }
 }
+function mapStateTopProps(state) {
+    return{
+        users: state.userState.users
+    }
+}
 
-export default connect(null)(Login)
+export default connect(mapStateTopProps)(Login);
