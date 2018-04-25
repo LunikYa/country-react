@@ -1,20 +1,10 @@
 import * as types from '../constants';
 
-let initialState = { 
-    loginedUser: '', 
-    users: [{ email: 'vasya@com.ua', password: '123456' }] 
-}
-
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = {}, action) => {
     switch (action.type) {
         case types.LOGIN_USER:
             return {
-                loginedUser: action.payload,
-            }
-        case types.REGISTER_USER:
-            return {
-                users: Object.assign([], state.users, action.payload),
-                loginedUser: action.payload.email
+                user: action.payload,
             }
         default:
             return state

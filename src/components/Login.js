@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { changePath, loginUser } from '../store/actions';
 import { connect } from 'react-redux';
+import getUser from '../dataUsers';
+import { push } from 'react-router-redux';
 
 class Login extends Component {
     state = {
@@ -15,21 +17,17 @@ class Login extends Component {
     }
 
     validateUser = (form) => {
-        let tempUser = {};
-  
-        for(let i = 0; i < this.props.users.length; i++){
-            if (this.props.users[i].email === form.email.value){
-                tempUser = { ...this.props.users[i]}
-            }
-        }
+        let result = getUser({ email: form.email.value, password: form.password.value})
 
-        if (JSON.stringify(tempUser)==='{}'){
-            this.showError('*No such email was found', form.email);
-        } else if (tempUser.password !== form.password.value){
-            this.showError('*Password is not valid', form.password);
+        if(result.error){
+            if(result.error === 'email')
+                this.showError('*No such email was found', form.email);
+            else if (result.error === 'password'){
+                this.showError('*Password is not valid', form.password);
+            }
         } else {
-            this.props.dispatch(loginUser(tempUser.email));
-            this.props.dispatch(changePath('country'))
+            this.props.dispatch(loginUser(result));
+            this.props.dispatch(push('/country'))
         }
         event.preventDefault();
     }
@@ -114,6 +112,11 @@ class Login extends Component {
             return 'default-input';
         }
     }
+
+    goReg = () => {
+        this.props.dispatch(push('/register'))
+    }
+
     render(){ 
         const { email, password } = this.state;
         return (
@@ -132,15 +135,10 @@ class Login extends Component {
                     <button className='button'>Submit</button>
                 </form>
                
-                <p className='link' onClick={(e)=>{this.props.dispatch(changePath('register'))}}>Go to Register</p>
+                <p className='link' onClick={this.goReg}>Go to Register</p>
             </div>
         )
     }
 }
-function mapStateTopProps(state) {
-    return{
-        users: state.userState.users
-    }
-}
 
-export default connect(mapStateTopProps)(Login);
+export default connect(null)(Login);

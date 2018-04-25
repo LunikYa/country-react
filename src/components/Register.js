@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { changePath, registerUser } from '../store/actions';
+import { changePath, loginUser } from '../store/actions';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 class Register extends Component {
     state = {
@@ -21,16 +22,6 @@ class Register extends Component {
             accepted: false
         },
     }
-    validateUser = (form) => {
-        for (let i = 0; i < this.props.users.length; i++) {
-            if (this.props.users[i].email === form.email.value) {
-                this.showError('*This email already exists', form.email)
-                event.preventDefault()
-                return false
-            }
-        }
-            this.createUser(form);
-    }
     
     validateForm = (event) => {
         let result = true,
@@ -50,7 +41,7 @@ class Register extends Component {
                 }
             }
         }
-        (result) ? this.validateUser(form) : event.preventDefault();
+        (result) ? this.createUser(form) : event.preventDefault();
     }
 
     isValidemail = (input) => {
@@ -131,12 +122,11 @@ class Register extends Component {
                 surname: form['surname'].value,
                 password: form['password'].value
             };
-            this.props.dispatch(registerUser(user));
-            this.props.dispatch(changePath('country'))
+            this.props.dispatch(loginUser(user));
+            this.props.dispatch(push('/country'))
         } catch (error) {
             console.log(error)
-        }
-        
+        }        
     }
 
     get emailClass() {
@@ -178,6 +168,10 @@ class Register extends Component {
             return 'default-input';
         }
     }
+
+    goLog = () => {
+        this.props.dispatch(push('/'))
+    }
     
     render(){
         const {name, surname, email, password} = this.state;
@@ -204,14 +198,10 @@ class Register extends Component {
                     
                     <button className='button'>Submit</button>
                 </form>
-                <p className='link' onClick={(e) => { this.props.dispatch(changePath('login')) }}>Go to Login</p>
+                <p className='link' onClick={this.goLog}>Go to Login</p>
             </div>
         )
     }
 }
-function mapStateTopProps(state) {
-    return {
-        users: state.userState.users
-    }
-}
-export default connect(mapStateTopProps)(Register);
+
+export default connect(null)(Register);

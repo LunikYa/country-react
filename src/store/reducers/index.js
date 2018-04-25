@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 import countriesReducer    from './countries';
-import pathReducer         from './path';
 import userReducer         from './users';
+import { routerReducer } from 'react-router-redux'
 
 export default combineReducers({
     countriesState: countriesReducer,
-    currentPath: pathReducer,
-    userState: userReducer
+    user: userReducer,
+    router: routerReducer
 });
+

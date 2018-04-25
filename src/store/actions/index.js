@@ -1,13 +1,9 @@
 import httpGet from '../../components/helpers';
 import * as types from '../constants';
 
-export const changePath = path => ({ type: types.CHANGE_PATH, payload: path})
+export const loginUser = user => ({ type: types.LOGIN_USER, payload: user})
 
-export const loginUser = email => ({ type: types.LOGIN_USER, payload: email})
-
-export const registerUser = user => ({ type: types.REGISTER_USER, payload: user})
-
-export const getCountries = data => {
+export const getCountries = () => {
     return dispatch => {
         httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
             .then(
