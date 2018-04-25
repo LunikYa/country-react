@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { changePath, loginUser } from '../store/actions';
+import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 import getUser from '../dataUsers';
 import { push } from 'react-router-redux';

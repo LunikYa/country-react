@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { changePath, loginUser } from '../store/actions';
+import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
@@ -114,19 +114,14 @@ class Register extends Component {
     }
     
     createUser = (form) => {
-        event.preventDefault()
-        try {
-            let user = {
-                email: form['email'].value,
-                name: form['name'].value,
-                surname: form['surname'].value,
-                password: form['password'].value
-            };
-            this.props.dispatch(loginUser(user));
-            this.props.dispatch(push('/country'))
-        } catch (error) {
-            console.log(error)
-        }        
+        let user = {
+            email: form['email'].value,
+            name: form['name'].value,
+            surname: form['surname'].value,
+            password: form['password'].value
+        };
+        this.props.dispatch(loginUser(user));
+        this.props.dispatch(push('/country'))     
     }
 
     get emailClass() {
