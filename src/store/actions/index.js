@@ -1,13 +1,13 @@
 import httpGet from '../../components/helpers';
 import * as types from '../constants';
 
-const changePath = path => ({ type: types.CHANGE_PATH, payload: path})
+export const changePath = path => ({ type: types.CHANGE_PATH, payload: path})
 
-const loginUser = email => ({ type: types.LOGIN_USER, payload: email})
+export const loginUser = email => ({ type: types.LOGIN_USER, payload: email})
 
-const registerUser = user => ({ type: types.REGISTER_USER, payload: user})
+export const registerUser = user => ({ type: types.REGISTER_USER, payload: user})
 
-const getCountries = data => {
+export const getCountries = data => {
     return dispatch => {
         httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
             .then(
@@ -37,7 +37,7 @@ const getCountries = data => {
     }
 }
 
-const filterCountry = val =>{
+export const filterCountry = val =>{
     return (dispatch, getState) => {
         let filtredArr = (getState().countriesState.allCountries.filter((a) => {
             return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
@@ -52,7 +52,7 @@ const filterCountry = val =>{
     }
 }
 
-const filterCity = val => {
+export const filterCity = val => {
     return (dispatch, getState) => {
         let filtredArr = (getState().countriesState.allCities.filter((a) => {
            return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
@@ -67,7 +67,7 @@ const filterCity = val => {
     }
 }
 
-const changeCitiesBySlicedCountries = () => {
+export const changeCitiesBySlicedCountries = () => {
     return (dispatch, getState) => { 
         let temp = [],
             slice = getState().countriesState.filtredCountries.slice(0, 3);
@@ -86,7 +86,7 @@ const changeCitiesBySlicedCountries = () => {
     }
 }
 
-const choosedCountry = country => {
+export const choosedCountry = country => {
     return (dispatch, getState) => {
         dispatch({
             type: types.CHANGE_CITIES,
@@ -94,14 +94,3 @@ const choosedCountry = country => {
         })
     }
 }
-
-export {   
-        getCountries, 
-        changePath, 
-        loginUser, 
-        registerUser, 
-        filterCity, 
-        filterCountry, 
-        changeCitiesBySlicedCountries, 
-        choosedCountry 
-    };
