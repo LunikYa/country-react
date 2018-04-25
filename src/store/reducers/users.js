@@ -1,4 +1,4 @@
-import { LOGIN_USER, REGISTER_USER } from '../constants';
+import * as types from '../constants';
 
 let initialState = { 
     loginedUser: '', 
@@ -7,11 +7,11 @@ let initialState = {
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOGIN_USER:
+        case types.LOGIN_USER:
             return {
                 loginedUser: action.payload,
             }
-        case REGISTER_USER:
+        case types.REGISTER_USER:
             return {
                 users: Object.assign([], state.users, action.payload),
                 loginedUser: action.payload.email

@@ -1,8 +1,8 @@
-import { CHANGE_PATH } from '../constants';
+import * as types from '../constants';
 
 const pathReducer = (state = { path: 'login' }, action) => {
     switch (action.type) {
-        case CHANGE_PATH: {
+        case types.CHANGE_PATH: {
             return {
                 path: action.payload
             }
