@@ -6,25 +6,16 @@ let users =
     ]
 
 function getUser(user){
-    let tempUser = {};
-
     for (let i = 0; i < users.length; i++) {
-        if (user.email === users[i].email) {
-            tempUser = { ...users[i] }
+        if ((user.email === users[i].email) && (user.password === users[i].password)) {
+            return {
+                email: users[i].email,
+                surname: users[i].surname,
+                name: users[i].name
+            }
         }
     }
-
-    if (!tempUser.email) {
-        return {
-            error: 'email'
-        }
-    } else if (tempUser.password !== user.password) {
-        return {
-            error: 'password'
-        }
-    } else {
-        return tempUser
-    }   
+    return false
 }
 
 export default getUser

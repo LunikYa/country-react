@@ -18,18 +18,14 @@ class Login extends Component {
 
     validateUser = (form) => {
         let result = getUser({ email: form.email.value, password: form.password.value})
-
-        if(result.error){
-            if(result.error === 'email')
-                this.showError('*No such email was found', form.email);
-            else if (result.error === 'password'){
-                this.showError('*Password is not valid', form.password);
-            }
-        } else {
+        if(result){
             this.props.dispatch(loginUser(result));
-            this.props.dispatch(push('/country'))
+            this.props.dispatch(push('/country'));
+        } else {
+            this.showError('*User not found', form.email);
         }
         event.preventDefault();
+        
     }
 
     validateForm = (event) => {
