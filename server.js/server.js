@@ -10,7 +10,7 @@ class App {
             for (let i = 0; i < this.middleweres.length; i++){
                 await this.middleweres[i](req, res)
             }
-            let response = `all ok ${req.url} ${req.body.something}  ${req.ok} ${req.bred}`
+            let response = `<h1>all ok ${req.url} ${req.body.something}  ${req.ok} ${req.bred}</h1>`
             res.end(response)
         })
         return server
@@ -19,8 +19,9 @@ class App {
     use(func){
         this.middleweres.push(func)
     }
+    
     start(port){
-       this.init().listen(port, (e)=>{
+       this.init().listen(port, (e) => {
             if(e){
                console.log('Errrorr', e)
             }
