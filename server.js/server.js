@@ -10,7 +10,8 @@ class App {
             for (let i = 0; i < this.middleweres.length; i++){
                 await this.middleweres[i](req, res)
             }
-            this.response(req, res)
+            let response = `all ok ${req.url} ${req.body.something}  ${req.ok} ${req.bred}`
+            res.end(response)
         })
         return server
     }
@@ -18,11 +19,6 @@ class App {
     use(func){
         this.middleweres.push(func)
     }
-
-    get(func){
-       this.response = func;
-    }
-
     start(port){
        this.init().listen(port, (e)=>{
             if(e){
@@ -33,24 +29,24 @@ class App {
     }
 }
 
-function middlewereFirst(req, res) {
+function middlewereFirst(req) {
     req.url = 'mYurl'
-    return req
+    return true
 }
 
-function middlewereSec(req, res) {
+function middlewereSec(req) {
     req.body = {something: 'some body'}
-    return req
+    return true
 }
 
-function middlewereBred(req, res) {
+function middlewereBred(req) {
     req.ok = true
-    return req
+    return true
 }
 
-function middlewereThird(req, res) {
+function middlewereThird(req) {
     req.bred = true
-    return req
+    return true
 }
 
 const server = new App();
@@ -59,10 +55,5 @@ server.use(middlewereFirst)
 server.use(middlewereSec)
 server.use(middlewereThird)
 server.use(middlewereBred)
-
-server.get( function (req, res) {
-    let response = `all ok ${req.url} ${req.body.something}  ${req.ok} ${req.bred}`
-    res.end(response)
-})
 
 server.start(port)
