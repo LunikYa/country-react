@@ -6,7 +6,7 @@ const server = http.createServer((req, res) => {
     res.end('My server');
 });
 
-server.listen(port, (err) => {
+server.listen(port, (err)=>{
     if(err){
         console.log('wrong', err)
     }
