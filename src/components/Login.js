@@ -3,6 +3,7 @@ import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 import getUser from '../dataUsers';
 import { push } from 'react-router-redux';
+import httpGet from './helpers';
 
 class Login extends Component {
     state = {
@@ -17,15 +18,15 @@ class Login extends Component {
     }
 
     validateUser = (form) => {
-        let result = getUser({ email: form.email.value, password: form.password.value})
-        if(result){
-            this.props.dispatch(loginUser(result));
-            this.props.dispatch(push('/country'));
-        } else {
-            this.showError('*User not found', form.email);
-        }
-        event.preventDefault();
-        
+        // ${ form.email.value } /${form.password.value}
+        httpGet(`http://localhost:3000/users/2`)
+            .then(x => {
+                this.props.dispatch(loginUser());
+                this.props.dispatch(push('/country'));
+            }, reject => {
+                this.showError('*User not found', form.email);
+            })
+        event.preventDefault();        
     }
 
     validateForm = (event) => {
@@ -113,6 +114,11 @@ class Login extends Component {
         this.props.dispatch(push('/register'))
     }
 
+    getUsers = (email, pass) => {
+        httpGet(`http://localhost:3000/users`).then(x=> { console.log(x)})
+        event.preventDefault()
+    }
+
     render(){ 
         const { email, password } = this.state;
         return (
@@ -132,6 +138,8 @@ class Login extends Component {
                 </form>
                
                 <p className='link' onClick={this.goReg}>Go to Register</p>
+                <button onClick={this.getUsers}>GetUsers</button>
+                {/* <button onClick={this.postUser}>postUser</button> */}
             </div>
         )
     }

@@ -1,11 +1,15 @@
 
- export default function httpGet(url) {
+ export default function httpGet(url, data = {}) {
         return new Promise(function (resolve, reject) {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.onload = function () {
                 if (this.status == 200) {
-                    resolve(JSON.parse(this.response));
+                    try {
+                        resolve(JSON.parse(this.response));
+                    } catch (error) {
+                        console.log(error)
+                    }
                 } else {
                     let error = new Error(this.statusText);
                     error.code = this.status;

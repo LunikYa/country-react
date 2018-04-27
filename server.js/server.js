@@ -1,60 +1,28 @@
-const http = require('http');
-const port = 3000;
+const Koa = require('koa');
+const router = require('koa-router');
+const bodyParser = require('koa-body');
+const users = require('./users.js');
 
-class App {
-    constructor(){
-        this.middleweres = [];
-    }
-    init(){
-        const server = http.createServer(async (req, res) => {
-            for (let i = 0; i < this.middleweres.length; i++){
-                await this.middleweres[i](req, res)
-            }
-            let response = `<h1>all ok ${req.url} ${req.body.something}  ${req.ok} ${req.bred}</h1>`
-            res.end(response)
-        })
-        return server
-    }
+const app = new Koa();
+const hostname = '127.0.0.1';
+const port = '3000';
 
-    use(func){
-        this.middleweres.push(func)
-    }
-    
-    start(port){
-       this.init().listen(port, (e) => {
-            if(e){
-               console.log('Errrorr', e)
-            }
-           console.log(`Server running at http://localhost:${port}/`)
-       })
-    }
-}
+app.use(bodyParser({
+    formidable: { uploadDir: './uploads' },
+    multipart: true,
+    urlencoded: true,
+}));
+app.use(async (ctx, next) => {
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+    next();
+})
+app.use(users.routes());
 
-function middlewereFirst(req) {
-    req.url = 'mYurl'
-    return true
-}
 
-function middlewereSec(req) {
-    req.body = {something: 'some body'}
-    return true
-}
-
-function middlewereBred(req) {
-    req.ok = true
-    return true
-}
-
-function middlewereThird(req) {
-    req.bred = true
-    return true
-}
-
-const server = new App();
-
-server.use(middlewereFirst)
-server.use(middlewereSec)
-server.use(middlewereThird)
-server.use(middlewereBred)
-
-server.start(port)
+app.listen(port, hostname, (e)=>{
+    if(e)
+        console.log(e)
+    console.log(`listen at http://${hostname}:${port}`)
+});
