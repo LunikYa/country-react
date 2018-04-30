@@ -1,6 +1,9 @@
 const Router = require('koa-router');
 const router = Router(); 
 
+const jwtsecret = "countries-react-key";
+const jwt = require('jsonwebtoken');
+
 let users =
     [
         { email: 'vasya@com.ua', password: '123456', surname: 'testuser', name: 'vasya', id: 1 },
@@ -60,7 +63,16 @@ async function addNewUser(ctx, next){
 
     if (!error) {
         users.push({ ...tempUser, id: users.length + 1 })
-        ctx.response.body = { status: '200 OK', message: 'user created' };
+
+        const payload = {
+            id: tempUser.id,
+            name: tempUser.name,
+            surname: tempUser.surname,
+            email: tempUser.email
+        }
+        const token = jwt.sign(payload, jwtsecret)
+        console.log(token)
+        ctx.response.body = { status: '200 OK', message: 'user created', user: { email: tempUser.email, token: token}};
         await next();
     }    
 }
@@ -68,21 +80,23 @@ async function addNewUser(ctx, next){
 async function loginUser(ctx, next){
     let tempUser = JSON.parse(ctx.request.body),
         error = true;
-
+   
     for(let i = 0; i < users.length; i++){
         if(users[i].email == tempUser.email && users[i].password == tempUser.password){
-            error = false;
+            error = false
+            
             ctx.response.body = {
                 email: users[i].email,
-                surname: users[i].surname,
+                id: users[i].id,
                 name: users[i].name,
-                id: users[i].id
+                surname: users[i].surname
             }
             break
         }
-    } if(error)
-    ctx.response.status = 401;
-    ctx.response.message = 'Unauthorized';
+    } if(error){
+        ctx.response.status = 401;
+        ctx.response.message = 'Unauthorized';
+    }
     await next();
 }
 
