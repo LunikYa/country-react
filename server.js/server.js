@@ -1,5 +1,4 @@
 const Koa = require('koa');
-const router = require('koa-router');
 const bodyParser = require('koa-body');
 const users = require('./users.js');
 
@@ -12,14 +11,19 @@ app.use(bodyParser({
     multipart: true,
     urlencoded: true,
 }));
+
 app.use(async (ctx, next) => {
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
     next();
 })
-app.use(users.routes());
 
+app.on('error', (err, ctx) => {
+  log.error('server error', err, ctx)
+});
+
+app.use(users.routes());
 
 app.listen(port, hostname, (e)=>{
     if(e)

@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
-import getUser from '../dataUsers';
 import { push } from 'react-router-redux';
-import httpGet from './helpers';
+import { httpGet, httpPost }from './helpers';
 
 class Login extends Component {
     state = {
@@ -17,11 +16,10 @@ class Login extends Component {
         },
     }
 
-    validateUser = (form) => {
-        // ${ form.email.value } /${form.password.value}
-        httpGet(`http://localhost:3000/users/2`)
-            .then(x => {
-                this.props.dispatch(loginUser());
+    loginUser = (form) => {
+        httpPost(`http://localhost:3000/login`, { email: form.email.value, password: form.password.value})
+            .then(resolve => {
+                this.props.dispatch(loginUser(resolve));
                 this.props.dispatch(push('/country'));
             }, reject => {
                 this.showError('*User not found', form.email);
@@ -43,7 +41,7 @@ class Login extends Component {
                 }
             }
         }
-        (result) ? this.validateUser(form) : event.preventDefault();
+        (result) ? this.loginUser(form) : event.preventDefault();
     }
 
     isValidemail = (input) => {
@@ -114,8 +112,8 @@ class Login extends Component {
         this.props.dispatch(push('/register'))
     }
 
-    getUsers = (email, pass) => {
-        httpGet(`http://localhost:3000/users`).then(x=> { console.log(x)})
+    getUsers = () => {
+        httpGet(`http://localhost:3000/users`).then(x=> { console.table(x)})
         event.preventDefault()
     }
 
@@ -133,13 +131,12 @@ class Login extends Component {
                     <input type="password" name='password' className={this.passwordClass} placeholder='You password' 
                            onBlur={(e) => this.isValidpassword(e.target)} onFocus={(e) => this.hideStatus(e.target)} />
                     <div className='errormsg'>{ password.error }</div>
-                    
+
                     <button className='button'>Submit</button>
                 </form>
-               
+
                 <p className='link' onClick={this.goReg}>Go to Register</p>
                 <button onClick={this.getUsers}>GetUsers</button>
-                {/* <button onClick={this.postUser}>postUser</button> */}
             </div>
         )
     }

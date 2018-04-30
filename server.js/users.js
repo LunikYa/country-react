@@ -9,9 +9,9 @@ let users =
     ]
 
 router.get('/users', getUsers);
-// router.get('/users/:email/:pass', getUser);
 router.get('/users/:id', getUser);
-router.post('/users', addNewUser);
+router.post('/users/:login', addNewUser);
+router.post('/login', loginUser);
 
 async function getUsers (ctx, next) {
     let tempUsers = users.map((x) => {
@@ -28,10 +28,9 @@ async function getUsers (ctx, next) {
 
 async function getUser(ctx, next) {
     let user;
-    console.log(ctx.params)
+    
     for(let i = 0; i < users.length; i++){
         if(users[i].id == ctx.params.id){
-        // if((users[i].email == ctx.params.email) && (users[i].password == ctx.params.pass)){
             user = users[i];
             ctx.response.body = {
                 email: user.email,
@@ -48,9 +47,43 @@ async function getUser(ctx, next) {
 }
 
 async function addNewUser(ctx, next){
-    let tempUser = JSON.parse(ctx.request.body);
-    users.push({ ...tempUser, id: users.length+1})
-    ctx.response.body = {status:'200 OK', message: 'user created'};
-    await next()
+    let tempUser = JSON.parse(ctx.request.body),
+        error = false;
+
+    for(let i = 0; i < users.length; i++){
+        if(tempUser.email == users[i].email){
+            error = true;
+            ctx.response.status = 401;
+            ctx.response.message = 'Such email already exists';
+        }
+    }
+
+    if (!error) {
+        users.push({ ...tempUser, id: users.length + 1 })
+        ctx.response.body = { status: '200 OK', message: 'user created' };
+        await next();
+    }    
 }
+
+async function loginUser(ctx, next){
+    let tempUser = JSON.parse(ctx.request.body),
+        error = true;
+
+    for(let i = 0; i < users.length; i++){
+        if(users[i].email == tempUser.email && users[i].password == tempUser.password){
+            error = false;
+            ctx.response.body = {
+                email: users[i].email,
+                surname: users[i].surname,
+                name: users[i].name,
+                id: users[i].id
+            }
+            break
+        }
+    } if(error)
+    ctx.response.status = 401;
+    ctx.response.message = 'Unauthorized';
+    await next();
+}
+
 module.exports = router;

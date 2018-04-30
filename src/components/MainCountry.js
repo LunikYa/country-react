@@ -34,7 +34,6 @@ class MainCountry extends Component {
     render(){
         return (
             <div>
-
                 {this.mainRender}
             </div>           
         )

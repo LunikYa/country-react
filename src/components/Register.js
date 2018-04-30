@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { httpPost } from './helpers';
 
 class Register extends Component {
     state = {
@@ -120,18 +121,16 @@ class Register extends Component {
             surname: form['surname'].value,
             password: form['password'].value
         };
-        this.postUser(user)
-        .then(resolve =>{
-            console.log('resolve')
-            this.props.dispatch(loginUser(user));
-            this.props.dispatch(push('/country'))  
-        },
-        reject => {
-            console.log(reject)
-            console.log('reject')
-        })
+        httpPost(`http://localhost:3000/users/${user.name}`, user)
+            .then(resolve =>{
+                this.props.dispatch(loginUser(user));
+                this.props.dispatch(push('/country'))  
+            },
+            reject => {
+                // console.error(reject.message)
+                this.showError(reject.message, form.email)
+            })
         event.preventDefault()
-           
     }
 
     get emailClass() {
@@ -177,33 +176,7 @@ class Register extends Component {
     goLog = () => {
         this.props.dispatch(push('/'))
     }
-
-    postUser = (user) => {
-        return new Promise((resolve, reject) => {
-            var x = new XMLHttpRequest();
-            
-            x.onerror = () => reject(new Error('jsonPost failed'))
-            x.open("POST", 'http://localhost:3000/users', true);
-            // x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            x.onload = function () {
-                if (this.status == 200) {
-                    try {
-                        resolve(JSON.parse(this.response));
-                    } catch (error) {
-                        console.log(error)
-                    }
-                } else {
-                    let error = new Error(this.statusText);
-                    error.code = this.status;
-                    reject(error);
-                }
-            };
-            x.send(JSON.stringify(user))
-
-            console.log('send')
-        })
-    }
-    
+   
     render(){
         const {name, surname, email, password} = this.state;
         return (
