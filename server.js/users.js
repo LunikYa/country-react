@@ -70,9 +70,11 @@ async function addNewUser(ctx, next){
             surname: tempUser.surname,
             email: tempUser.email
         }
+      
         const token = jwt.sign(payload, jwtsecret)
         console.log(token)
-        ctx.response.body = { status: '200 OK', message: 'user created', user: { email: tempUser.email, token: token}};
+        
+        ctx.response.body = { status: '200 OK', message: 'user created' };
         await next();
     }    
 }
@@ -84,12 +86,23 @@ async function loginUser(ctx, next){
     for(let i = 0; i < users.length; i++){
         if(users[i].email == tempUser.email && users[i].password == tempUser.password){
             error = false
+
+            const payload = {
+                id: tempUser.id,
+                name: tempUser.name,
+                surname: tempUser.surname,
+                email: tempUser.email
+            }
+
+            const token = jwt.sign(payload, jwtsecret)
+            console.log(token)
             
             ctx.response.body = {
                 email: users[i].email,
                 id: users[i].id,
                 name: users[i].name,
-                surname: users[i].surname
+                surname: users[i].surname,
+                token: token
             }
             break
         }
