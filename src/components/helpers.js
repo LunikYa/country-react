@@ -1,4 +1,4 @@
- export function httpGet(url) {
+ export function httpGet(url, token) {
         return new Promise(function (resolve, reject) {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
@@ -28,7 +28,6 @@ export function httpPost(url, data = {}) {
         const x = new XMLHttpRequest();
         x.onerror = () => reject(new Error('jsonPost failed'))
         x.open("POST", url, true);
-        // x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         x.onload = function () {
             if (this.status == 200) {
                 try {
@@ -42,8 +41,9 @@ export function httpPost(url, data = {}) {
                 reject(error);
             }
         };
+        x.setRequestHeader('Content-Type', 'application/json');
+        x.setRequestHeader('x-access-token', token) 
         x.send(JSON.stringify(data))
-        console.log('send')
     })
 }
 

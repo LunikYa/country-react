@@ -1,6 +1,3 @@
-const Router = require('koa-router');
-const router = Router(); 
-
 const jwtsecret = "countries-react-key";
 const jwt = require('jsonwebtoken');
 
@@ -11,12 +8,7 @@ let users =
         { email: 'masha@com.ua', password: '123456', surname: 'testuser', name: 'masha', id: 3 }
     ]
 
-router.get('/users', getUsers);
-router.get('/users/:id', getUser);
-router.post('/users/:login', addNewUser);
-router.post('/login', loginUser);
-
-async function getUsers (ctx, next) {
+module.exports.getUsers = async function  (ctx, next) {
     let tempUsers = users.map((x) => {
         return {
             email: x.email,
@@ -29,9 +21,8 @@ async function getUsers (ctx, next) {
     await next();
 }
 
-async function getUser(ctx, next) {
+module.exports.getUser = async function (ctx, next) {
     let user;
-    
     for(let i = 0; i < users.length; i++){
         if(users[i].id == ctx.params.id){
             user = users[i];
@@ -49,8 +40,8 @@ async function getUser(ctx, next) {
     await next();
 }
 
-async function addNewUser(ctx, next){
-    let tempUser = JSON.parse(ctx.request.body),
+module.exports.addNewUser = async function (ctx, next){
+    let tempUser = ctx.request.body ,
         error = false;
 
     for(let i = 0; i < users.length; i++){
@@ -66,37 +57,29 @@ async function addNewUser(ctx, next){
 
         const payload = {
             id: tempUser.id,
-            name: tempUser.name,
-            surname: tempUser.surname,
             email: tempUser.email
         }
-      
-        const token = jwt.sign(payload, jwtsecret)
-        console.log(token)
-        
-        ctx.response.body = { status: '200 OK', message: 'user created' };
+        const token = jwt.sign(payload, jwtsecret);
+
+        ctx.response.body = { status: '200 OK', message: 'user created', token: token };
         await next();
     }    
 }
 
-async function loginUser(ctx, next){
-    let tempUser = JSON.parse(ctx.request.body),
+module.exports.loginUser = async function (ctx, next){
+    let tempUser = ctx.request.body,
         error = true;
-   
+
     for(let i = 0; i < users.length; i++){
         if(users[i].email == tempUser.email && users[i].password == tempUser.password){
             error = false
 
             const payload = {
                 id: tempUser.id,
-                name: tempUser.name,
-                surname: tempUser.surname,
                 email: tempUser.email
             }
-
             const token = jwt.sign(payload, jwtsecret)
-            console.log(token)
-            
+
             ctx.response.body = {
                 email: users[i].email,
                 id: users[i].id,
@@ -112,5 +95,3 @@ async function loginUser(ctx, next){
     }
     await next();
 }
-
-module.exports = router;

@@ -4,8 +4,9 @@ import Country from './Country';
 import City from './City';
 import { filterCity, filterCountry, changeCitiesBySlicedCountries, getCountries} from '../store/actions';
 import { push } from 'react-router-redux';
-
+import { httpGet } from './helpers';
 class MainCountry extends Component {
+
     updateLists = (val) => {
         this.props.dispatch(filterCountry(val))
         this.props.dispatch(changeCitiesBySlicedCountries())
@@ -43,6 +44,7 @@ class MainCountry extends Component {
 function mapStateTopProps(state) {
     return {
         completed: state.countriesState.completed,
+        // user: state.user.token
     }
     
 }
