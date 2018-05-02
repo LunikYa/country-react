@@ -1,8 +1,8 @@
 const Router = require('koa-router');
 const router = Router(); 
 
-const publicRout = require('./public/routs');
-const securityRout = require('./security/routs');
+const publicRout = require('./public/router');
+const securityRout = require('./security/router');
 
 router.use(publicRout.routes())
       .use(publicRout.allowedMethods())

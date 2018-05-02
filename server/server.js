@@ -16,7 +16,7 @@ app.use(async (ctx, next) => {
 })
 
 app.use(rootRouter.routes())
- 
+
 app.on('error', (err, ctx) => {
   log.error('server error', err, ctx)
 });
