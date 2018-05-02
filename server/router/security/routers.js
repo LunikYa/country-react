@@ -1,8 +1,6 @@
 const Router = require('koa-router');
 const router = Router();
-const { getCountries, getFiltredCountries, getCities, getFiltredCities, verifyToken} = require('./dataModel');
-
-router.use(['/countries', '/cities', '/countries/filtred/:val', '/cities/filtred/:val'], verifyToken)
+const { getCountries, getFiltredCountries, getCities, getFiltredCities } = require('./dataController');
 
 router.get('/countries', getCountries);
 router.get('/countries/filtred/:val', getFiltredCountries);

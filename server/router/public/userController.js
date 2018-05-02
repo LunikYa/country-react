@@ -8,7 +8,7 @@ let users =
         { email: 'masha@com.ua', password: '123456', surname: 'testuser', name: 'masha', id: 3 }
     ]
 
-module.exports.regUser = async function (ctx, next){
+module.exports.regUser = function (ctx){
     let tempUser = ctx.request.body,
         error = false;
 
@@ -30,11 +30,10 @@ module.exports.regUser = async function (ctx, next){
         const token = jwt.sign(payload, jwtsecret);
 
         ctx.response.body = { status: '200 OK', message: 'user created', token: token };
-        await next();
     }    
 }
 
-module.exports.loginUser = async function (ctx, next){
+module.exports.loginUser = function (ctx){
     let tempUser = ctx.request.body,
         error = true;
     console.log('tempuser', ctx.request.body)
@@ -61,5 +60,4 @@ module.exports.loginUser = async function (ctx, next){
         ctx.response.status = 401;
         ctx.response.message = 'Unauthorized';
     }
-    await next();
 }
