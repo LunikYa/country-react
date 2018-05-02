@@ -8,40 +8,8 @@ let users =
         { email: 'masha@com.ua', password: '123456', surname: 'testuser', name: 'masha', id: 3 }
     ]
 
-module.exports.getUsers = async function  (ctx, next) {
-    let tempUsers = users.map((x) => {
-        return {
-            email: x.email,
-            surname: x.surname,
-            name: x.name,
-            id: x.id
-        }
-    })
-    ctx.body = tempUsers;
-    await next();
-}
-
-module.exports.getUser = async function (ctx, next) {
-    let user;
-    for(let i = 0; i < users.length; i++){
-        if(users[i].id == ctx.params.id){
-            user = users[i];
-            ctx.response.body = {
-                email: user.email,
-                surname: user.surname,
-                name: user.name,
-                id: user.id
-            };
-        }
-    } if(!user){
-        ctx.response.status = 204;
-        ctx.response.message = 'No Content';
-    }
-    await next();
-}
-
-module.exports.addNewUser = async function (ctx, next){
-    let tempUser = ctx.request.body ,
+module.exports.regUser = async function (ctx, next){
+    let tempUser = ctx.request.body,
         error = false;
 
     for(let i = 0; i < users.length; i++){
@@ -69,7 +37,7 @@ module.exports.addNewUser = async function (ctx, next){
 module.exports.loginUser = async function (ctx, next){
     let tempUser = ctx.request.body,
         error = true;
-
+    console.log('tempuser', ctx.request.body)
     for(let i = 0; i < users.length; i++){
         if(users[i].email == tempUser.email && users[i].password == tempUser.password){
             error = false

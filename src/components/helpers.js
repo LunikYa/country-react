@@ -18,12 +18,14 @@
             xhr.onerror = function () {
                 reject(new Error('Network Error'));
             };
+            if(token)
+                xhr.setRequestHeader('x-access-token', token)
             xhr.send();
         });
     };
 
 
-export function httpPost(url, data = {}) {
+export function httpPost(url, data = {}, token) {
     return new Promise((resolve, reject) => {
         const x = new XMLHttpRequest();
         x.onerror = () => reject(new Error('jsonPost failed'))

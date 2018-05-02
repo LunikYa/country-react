@@ -44,7 +44,6 @@ class MainCountry extends Component {
 function mapStateTopProps(state) {
     return {
         completed: state.countriesState.completed,
-        // user: state.user.token
     }
     
 }

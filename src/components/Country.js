@@ -13,6 +13,7 @@ class Country extends Component {
                 <h2>Country</h2>
                 <ul className='list-general'>
                     {this.props.countries.map((country, i)=>{
+                        
                         return <a onClick={()=>this.choosed(country)} key={i}><li>{country}</li></a>
                     })}
                 </ul>

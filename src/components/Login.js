@@ -113,7 +113,7 @@ class Login extends Component {
     }
 
     getUsers = () => {
-        httpGet(`http://localhost:3000/users`).then(x=> { console.table(x)})
+        httpGet(`http://localhost:3000/users`, this.props.token).then(x=> { console.table(x)})
         event.preventDefault()
     }
 
@@ -143,7 +143,7 @@ class Login extends Component {
 }
 function map (state){
     return {
-        token: state.user.token
+        token: state.user.token || 'none'
     }
 }
 export default connect(map)(Login);

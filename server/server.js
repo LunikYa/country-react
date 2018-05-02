@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
-const routsUser = require('./router.js');
+const rootRouter = require('./router/router.js');
 
 const app = new Koa();
 const hostname = '127.0.0.1';
@@ -15,10 +15,8 @@ app.use(async (ctx, next) => {
     next();
 })
 
-app
-    .use(routsUser.routes())
-    .use(routsUser.allowedMethods());
-
+app.use(rootRouter.routes())
+ 
 app.on('error', (err, ctx) => {
   log.error('server error', err, ctx)
 });

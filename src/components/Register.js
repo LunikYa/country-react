@@ -121,7 +121,8 @@ class Register extends Component {
             surname: form['surname'].value,
             password: form['password'].value
         };
-        httpPost(`http://localhost:3000/users/${user.name}`, user)
+
+        httpPost(`http://localhost:3000/users/${user.name}`, user )
             .then(resolve =>{
                 this.props.dispatch(loginUser(user));
                 this.props.dispatch(push('/country'))  
