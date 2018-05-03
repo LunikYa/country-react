@@ -4,7 +4,10 @@ const fileFullDataCountries = './router/security/data/allDataCountries.min.json'
 const fileCountryList = './router/security/data/countryList.json';
 const fileCityList = './router/security/data/cityList.json';
 
+
 module.exports.getCountries = function (ctx){
+    // console.log('server', db)
+    // db.collection('countries')
     let fullData = JSON.parse(fs.readFileSync(fileFullDataCountries, 'utf8'));
     let countries = [];
 
