@@ -7,7 +7,7 @@ module.exports.regUser = async function (ctx, next){
         tempUser = ctx.request.body;
     
         console.log('start')
-        const matches = await db.collection('users').findOne({ email: tempUser.email }).then(resolve=>{return resolve});
+        const matches = await db.collection('users').findOne({ email: tempUser.email });
         console.log('get matches')
     
     if (matches){
