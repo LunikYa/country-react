@@ -24,9 +24,9 @@ module.exports.getCities = async function (ctx){
     const collectionCountry = await db.collection('allDatacountries');
     const resultData        = await collectionCountry.findOne();
     const cities            = [...resultData[ctx.params.country]];
-    // db.collection('cities').deleteMany();
+
     const test = await db.collection('cities').save({cities: cities, id: 1});
-    console.log(test.ops[0].cities)
+
     ctx.response.status = 200;
     ctx.response.body = cities;
 }
