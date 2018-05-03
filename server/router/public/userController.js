@@ -3,41 +3,28 @@ const jwt = require('jsonwebtoken');
 const clientDb = require('../../db');
 
 module.exports.regUser = async function (ctx, next){
-    let db = clientDb.getDB(),
-        tempUser = ctx.request.body;
-    
-        console.log('start')
-        const matches = await db.collection('users').findOne({ email: tempUser.email });
-        console.log('get matches')
-    
-    if (matches){
-        console.log('wrong email == email', matches)
-    
+    const db = clientDb.getDB();
+    const tempUser = ctx.request.body;
+    const matches = await db.collection('users').findOne({ email: tempUser.email });
+   
+    if (matches){   
         ctx.response.status = 401;
-        ctx.response.message = 'Such email already exists';
-        ctx.response.body = 'dont create';
+        ctx.response.message = `Such email already exists - ${tempUser.email}`;
     } else {
-        let doc = await db.collection('users').insertOne(tempUser);
-        console.log('user created', doc.ops)
-        
+        const doc = await db.collection('users').insertOne(tempUser);
         const payload = {
             id: tempUser.id,
             email: tempUser.email
         }
-
         const token = jwt.sign(payload, jwtsecret);
-        ctx.response.body = { message: 'user created', token: token, doc: doc.ops };
+        ctx.response.body = { message: 'user created', token: token, user: doc.ops[0].email };
     }
-    console.log('finished')
 }    
 
 module.exports.loginUser = async function (ctx, next){
-    let db = clientDb.getDB(),
-        tempUser = ctx.request.body;
-
+    const db = clientDb.getDB();
+    const tempUser = ctx.request.body;
     const match = await db.collection('users').findOne(tempUser);
-
-    console.log(match)
     
     if(match){
         const payload = {
@@ -55,6 +42,6 @@ module.exports.loginUser = async function (ctx, next){
         }
     } else {
         ctx.response.status = 401;
-        ctx.response.message = 'Unauthorized';
+        ctx.response.message = `User ${tempUser.email} not found`;
     }
 }

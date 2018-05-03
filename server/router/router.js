@@ -1,9 +1,7 @@
 const Router = require('koa-router');
 const router = Router(); 
-const publicRout = require('./public/routers');
-const securityRout = require('./security/routers');
-// const fs = require('fs');
-// const jwt = require('jsonwebtoken');
+const publicRout = require('./public/publicRouters');
+const securityRout = require('./security/securityRouters');
 const { verifyToken } = require('./verifyToken');
 
 router

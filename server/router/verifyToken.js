@@ -1,3 +1,5 @@
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
 module.exports.verifyToken = async function (ctx) {
     const token = ctx.request.headers['x-access-token'];

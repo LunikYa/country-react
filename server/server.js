@@ -14,13 +14,13 @@ async function server() {
         ctx.set('Access-Control-Allow-Origin', '*');
         ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
         ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-        next();
+        await next();
     })
 
     app.use(rootRouter.routes())
 
     app.on('error', (err, ctx) => {
-        log.error('server error', err, ctx)
+        console.log('server error', err, ctx)
     });
 
     app.listen(port, hostname, (e) => {
