@@ -11,6 +11,10 @@ class MainCountry extends Component {
         this.props.dispatch(filterCountry(val || 'all'))
     }
 
+    updateCityList = (val) => {
+        val ? this.props.dispatch(filterCity(e.target.value)) : this.props.dispatch(getCities());
+    }
+
     goLogin = () =>{
         this.props.dispatch(push('/'))
     }
@@ -24,7 +28,7 @@ class MainCountry extends Component {
                     {this.props.dispatch(getCities())}
                     <div className='link' onClick={this.goLogin}>GO BACK</div>
                     <div className='conteiner-list left'>
-                        <input type="text" placeholder='Filter' className='filter-input' onInput={(e) => { this.updateLists(e.target.value) }} />
+                        <input type="text" placeholder='Filter' className='filter-input' onInput={(e) => { this.updateCountryList(e.target.value) }} />
                         <Country />
                     </div>
                 </div>
@@ -35,7 +39,7 @@ class MainCountry extends Component {
             return <div>Loading...</div>
         } 
         return  <div className='conteiner-list right'>
-                    <input type="text" placeholder='Filter' className='filter-input' onInput={(e) => this.props.dispatch(filterCity(e.target.value))} />
+            <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
                     <City />
                 </div>            
     }
