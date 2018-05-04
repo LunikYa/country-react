@@ -2,11 +2,12 @@ const jwt      = require('jsonwebtoken');
 const clientDb = require('../../db');
 
 module.exports.getCountries = async function (ctx){
-    const db                = clientDb.getDB();
-    const resultData        = await db.collection('data').findOne({id: 'countries'});
+    require('../../initialDb').initial();
+    // const db                = clientDb.getDB();
+    // const resultData        = await db.collection('data').findOne({id: 'countries'});
 
-    ctx.response.status = 200;
-    ctx.response.body   = resultData.countries;
+    // ctx.response.status = 200;
+    // ctx.response.body   = resultData.countries;
 }
 
 module.exports.getCities = async function (ctx){
