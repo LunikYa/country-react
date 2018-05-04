@@ -75,6 +75,5 @@ module.exports.getFiltredCities = async function (ctx) {
         
         ctx.response.status = 200;
         ctx.response.body   = filtredArr;
-    }
-    
+    }   
 }

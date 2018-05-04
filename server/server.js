@@ -1,9 +1,10 @@
-const Koa = require('koa');
+const Koa        = require('koa');
 const bodyParser = require('koa-bodyparser');
-const app = new Koa();
-const hostname = '127.0.0.1';
-const port = '3000';
 const rootRouter = require('./router/router.js'); 
+
+const app        = new Koa();
+const hostname   = '127.0.0.1';
+const port       = '3000';
 
 async function server() {
     await require('./db').connect();
