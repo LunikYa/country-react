@@ -18,12 +18,10 @@
             xhr.onerror = function () {
                 reject(new Error('Network Error'));
             };
-            if(token)
-                xhr.setRequestHeader('x-access-token', token)
+            xhr.setRequestHeader('x-access-token', token, true)
             xhr.send();
         });
     };
-
 
 export function httpPost(url, data = {}, token) {
     return new Promise((resolve, reject) => {
@@ -43,9 +41,8 @@ export function httpPost(url, data = {}, token) {
                 reject(error);
             }
         };
-        x.setRequestHeader('Content-Type', 'application/json');
-        x.setRequestHeader('x-access-token', token) 
-        x.send(JSON.stringify(data))
+        x.setRequestHeader('x-access-token', token, true);
+        x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        x.send(data)
     })
 }
-

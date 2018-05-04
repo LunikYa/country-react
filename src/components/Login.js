@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { httpGet, httpPost }from './helpers';
+import { httpPost }from './helpers';
 
 class Login extends Component {
     state = {
@@ -13,15 +13,16 @@ class Login extends Component {
         password: {
             error: '',
             accepted: false,
-        },
+        }
     }
 
     loginUser = (form) => {
-        httpPost(`http://localhost:3000/login`, { email: form.email.value, password: form.password.value}, this.props.token)
+        httpPost(`http://localhost:3000/login`, `email=${form.email.value}&password=${form.password.value}`, null)
             .then(resolve => {
                 this.props.dispatch(loginUser(resolve));
                 this.props.dispatch(push('/country'));
             }, reject => {
+                console.log('reject', reject)
                 this.showError('*User not found', form.email);
             })
         event.preventDefault();        
@@ -112,11 +113,6 @@ class Login extends Component {
         this.props.dispatch(push('/register'))
     }
 
-    getUsers = () => {
-        httpGet(`http://localhost:3000/users`, this.props.token).then(x=> { console.table(x)})
-        event.preventDefault()
-    }
-
     render(){ 
         const { email, password } = this.state;
         return (
@@ -136,14 +132,9 @@ class Login extends Component {
                 </form>
 
                 <p className='link' onClick={this.goReg}>Go to Register</p>
-                <button onClick={this.getUsers}>GetUsers</button>
             </div>
         )
     }
 }
-function map (state){
-    return {
-        token: state.user.token || 'none'
-    }
-}
-export default connect(map)(Login);
+
+export default connect(null)(Login);

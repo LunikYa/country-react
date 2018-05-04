@@ -4,23 +4,13 @@ import * as types from '../constants';
 export const loginUser = user => ({ type: types.LOGIN_USER, payload: user})
 
 export const getCountries = () => {
-    return dispatch => {
-        httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
+    return (dispatch, getState) => {
+        httpGet('http://localhost:3000/countries', getState().user.user.token || null)
             .then(
                 resolve => {
-                    let tempCountries = [];
-                    for (let key in resolve) {
-                        tempCountries.push(key);
-                    }
-                    let tempCities = [];
-                    for (let i = 0; tempCities.length < 50; i++) {
-                        resolve[tempCountries[i]].forEach((x) => { tempCities.push(x) })
-                    }
                     dispatch({
                         type: types.GET_COUNTRIES_SUCCES,
-                        countries: tempCountries,
-                        cities: tempCities,
-                        all: resolve
+                        payload: resolve
                     })
                 },
                 reject => {
@@ -33,60 +23,46 @@ export const getCountries = () => {
     }
 }
 
+export const getCities = (data) => {
+    return (dispatch, getState) => {
+        let val = data || getState().countriesState.countries[1];
+        httpGet(`http://localhost:3000/cities/${val}`, getState().user.user.token || null)
+            .then(
+                resolve => {
+                    dispatch({
+                        type: types.GET_CITIES_SUCCES,
+                        payload: resolve
+                    })
+                }
+            )
+    }
+}
+
 export const filterCountry = val =>{
     return (dispatch, getState) => {
-        let filtredArr = (getState().countriesState.allCountries.filter((a) => {
-            return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
-        }))
-        if (filtredArr.length === 0) {
-            filtredArr.push('No matches');
-        }
-        dispatch({
-            type: types.FILTER_COUNTRY,
-            payload: filtredArr
-        })
+        httpGet(`http://localhost:3000/countries/filtred/${val}`, getState().user.user.token || null)
+            .then(
+                resolve => {
+                    dispatch({
+                        type: types.FILTER_COUNTRY,
+                        payload: resolve
+                    })
+                }
+            )        
     }
 }
 
 export const filterCity = val => {
+    if(!val) val = 'all'
     return (dispatch, getState) => {
-        let filtredArr = (getState().countriesState.allCities.filter((a) => {
-           return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
-        }))
-        if (filtredArr.length === 0) {
-            filtredArr.push('No matches');
-        }
-        dispatch({
-            type: types.FILTER_CITY,
-            payload: filtredArr
-        })
-    }
-}
-
-export const changeCitiesBySlicedCountries = () => {
-    return (dispatch, getState) => { 
-        let temp = [],
-            slice = getState().countriesState.filtredCountries.slice(0, 3);
-
-        if (slice[0] === 'No matches') {
-            temp.push('No matches')
-        } else {
-            for (let i = 0; i < slice.length; i++) {
-                getState().countriesState.all[slice[i]].forEach(x => { temp.push(x) })
-            }
-        }
-        dispatch({
-            type: types.CHANGE_CITIES,
-            payload: temp
-        })
-    }
-}
-
-export const choosedCountry = country => {
-    return (dispatch, getState) => {
-        dispatch({
-            type: types.CHANGE_CITIES,
-            payload: getState().countriesState.all[country]
-        })
+        httpGet(`http://localhost:3000/cities/filtred/${val}`, getState().user.user.token || null)
+            .then(
+                resolve => {
+                    dispatch({
+                        type: types.FILTER_CITY,
+                        payload: resolve
+                    })
+                }
+            ) 
     }
 }

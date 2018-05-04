@@ -122,7 +122,7 @@ class Register extends Component {
             password: form['password'].value
         };
 
-        httpPost(`http://localhost:3000/users/${user.name}`, user )
+        httpPost(`http://localhost:3000/users/${user.name}`, user, null)
             .then(resolve =>{
                 this.props.dispatch(loginUser(user));
                 this.props.dispatch(push('/country'))  

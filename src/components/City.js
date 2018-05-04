@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class City extends Component {
-
-
     render() {
         return (
             <div className='list'>
@@ -20,7 +18,7 @@ class City extends Component {
 
 function map(state) {
     return {
-        cities: state.countriesState.filtredCities,
+        cities: state.countriesState.cities,
     }
 }
 export default connect(map)(City)

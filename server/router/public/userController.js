@@ -32,7 +32,7 @@ module.exports.loginUser = async function (ctx, next){
             email: tempUser.email
         }
         const token = jwt.sign(payload, jwtsecret)
-
+        ctx.status = 200;
         ctx.response.body = {
             email: match.email,
             id: match.id,

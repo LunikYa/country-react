@@ -8,17 +8,17 @@ const rootRouter = require('./router/router.js');
 async function server() {
     await require('./db').connect();
     
-    app.use(bodyParser());
+    app.use(bodyParser());     
 
     app.use(async (ctx, next) => {
         ctx.set('Access-Control-Allow-Origin', '*');
         ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
-        ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+        ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
         await next();
     })
-
+    
     app.use(rootRouter.routes())
-
+    
     app.on('error', (err, ctx) => {
         console.log('server error', err, ctx)
     });

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { choosedCountry } from '../store/actions';
+import { getCities } from '../store/actions';
 
 class Country extends Component {
     choosed = (country) => {
-       this.props.dispatch(choosedCountry(country))
+       this.props.dispatch(getCities(country))
     }
 
     render() {
@@ -24,7 +24,7 @@ class Country extends Component {
 
 function map(state) {
     return {
-        countries: state.countriesState.filtredCountries,
+        countries: state.countriesState.countries,
     }
 }
 export default connect(map)(Country);
