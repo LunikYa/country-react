@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { loginUser } from '../store/actions';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import { httpPost }from './helpers';
+import { loginUser }      from '../store/actions';
+import { connect }        from 'react-redux';
+import { push }           from 'react-router-redux';
+import { httpPost }       from './helpers';
 
 class Login extends Component {
     state = {

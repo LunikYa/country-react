@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { ConnectedRouter } from 'react-router-redux';
-import { history } from '../store/store';
-import Login from './Login';
-import Register from './Register';
-import MainCountry from './MainCountry';
+import { Route }            from 'react-router';
+import { ConnectedRouter }  from 'react-router-redux';
+import { history }          from '../store/store';
+import Login                from './Login';
+import Register             from './Register';
+import MainCountry          from './MainCountry';
 import '../main.css';
 
 class App extends Component {
@@ -15,9 +15,9 @@ class App extends Component {
             <main>
                 <ConnectedRouter history={history}>
                     <div>
-                        <Route exact path="/" component={Login} />
+                        <Route exact path="/"   component={Login} />
                         <Route path="/register" component={Register} />
-                        <Route path="/country" component={MainCountry} />
+                        <Route path="/country"  component={MainCountry} />
                     </div>  
                 </ConnectedRouter>
             </main>

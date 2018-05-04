@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { loginUser } from '../store/actions';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import { httpPost } from './helpers';
+import { connect }        from 'react-redux';
+import { push }           from 'react-router-redux';
+import { loginUser }      from '../store/actions';
+import { httpPost }       from './helpers';
 
 class Register extends Component {
     state = {
@@ -128,7 +128,6 @@ class Register extends Component {
                 this.props.dispatch(push('/country'))  
             },
             reject => {
-                // console.error(reject.message)
                 this.showError(reject.message, form.email)
             })
         event.preventDefault()

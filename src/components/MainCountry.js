@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Country from './Country';
-import City from './City';
+import { connect }          from 'react-redux';
+import Country              from './Country';
+import City                 from './City';
+import { push }             from 'react-router-redux';
 import { filterCity, filterCountry, getCountries, getCities} from '../store/actions';
-import { push } from 'react-router-redux';
+
 
 class MainCountry extends Component {
-
     updateLists = (val) => {
         this.props.dispatch(filterCountry(val || 'all'))
-    }   
+    }
+
     goLogin = () =>{
         this.props.dispatch(push('/'))
     }
+
     get countryListRender() {
         if (!this.props.countriesCompleted) {
             this.props.dispatch(getCountries())
@@ -27,6 +29,7 @@ class MainCountry extends Component {
                     </div>
                 </div>
     }
+    
     get cityListRender(){
         if (!this.props.citiesCompleted) {
             return <div>Loading...</div>
