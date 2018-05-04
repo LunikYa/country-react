@@ -3,10 +3,10 @@ const mongoUrl    = "mongodb://localhost:27017/";
 
 var db;
 
-module.exports.connect = function () {
-    MongoClient.connect(mongoUrl, (err, client) => {
+module.exports.connect = async function () {
+    await MongoClient.connect(mongoUrl, (err, client) => {
         if (err) console.log(err)
-        db = client.db('country-react'); 
+        db = client.db('country-react');
     });
 }
 

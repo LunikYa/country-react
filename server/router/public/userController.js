@@ -25,7 +25,7 @@ module.exports.loginUser = async function (ctx){
     const db       = clientDb.getDB();
     const tempUser = ctx.request.body;
     const match    = await db.collection('users').findOne(tempUser);
-    
+
     if(match){
         const payload = {
             id: tempUser.id,

@@ -8,9 +8,9 @@ const port       = '3000';
 
 async function server() {
     await require('./db').connect();
-    
-    app.use(bodyParser());     
 
+    app.use(bodyParser());     
+    
     app.use(async (ctx, next) => {
         ctx.set('Access-Control-Allow-Origin', '*');
         ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');

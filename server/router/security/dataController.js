@@ -3,30 +3,29 @@ const clientDb = require('../../db');
 
 module.exports.getCountries = async function (ctx){
     const db                = clientDb.getDB();
-    const resultData        = await db.collection('countries').findOne();
+    const resultData        = await db.collection('data').findOne({id: 'countries'});
 
     ctx.response.status = 200;
     ctx.response.body   = resultData.countries;
 }
 
 module.exports.getCities = async function (ctx){
-    const db                = clientDb.getDB();
-    const resultData        = await db.collection('countries_cities').findOne();
-    const cities            = [...resultData[ctx.params.country]];
+    const db      = clientDb.getDB();
+    const allDoc  = await db.collection('data').findOne({ id: 'all' });
+    const cities = allDoc.all[ctx.params.country];
 
-    const test = await db.collection('cities').save({cities: cities, id: 1});
+    const test = await db.collection('data').save({cities: cities, id: 'cities'});
 
     ctx.response.status = 200;
     ctx.response.body   = cities;
 }
 
 module.exports.getFiltredCountries = async function (ctx){
-    const db         = clientDb.getDB();
-    const cursor     = await db.collection('countries').findOne();
-    const val        = ctx.params.val;
-    const countries  = cursor.countries;
+    const db   = clientDb.getDB();
+    const val  = ctx.params.val;
+    const res  = await db.collection('data').findOne({id: 'countries'});
     
-    let filtredArr = (countries.filter((a) => {
+    let filtredArr = (res.countries.filter((a) => {
         return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
     }))
 
@@ -39,12 +38,11 @@ module.exports.getFiltredCountries = async function (ctx){
 
 
 module.exports.getFiltredCities = async function (ctx) {
-    const db         = clientDb.getDB();
-    const cursor     = await db.collection('cities').findOne();
-    const cities     = cursor.cities;
-    const val        = ctx.params.val;
+    const db   = clientDb.getDB();
+    const res  = await db.collection('data').findOne({ id: 'cities' });
+    const val  = ctx.params.val;
 
-    let filtredArr = (cities.filter((a) => {
+    let filtredArr = (res.cities.filter((a) => {
         return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
     }))
 
