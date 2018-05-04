@@ -12,12 +12,18 @@ module.exports.initial = ()=>{
 
     const data = db.collection('data');
     data.insertMany([
-        { cities: cities,
-        id: 'cities'},
-        { countries: countries,
-        id: 'countries'},
-        { all: file, 
-        id: 'all'}
+        { 
+            cities: cities,
+            id: 'cities'
+        },
+        { 
+            countries: countries,
+            id: 'countries'
+        },
+        { 
+            all: file,
+            id: 'all'
+        }
     ])
 
     const users = db.collection('users');
