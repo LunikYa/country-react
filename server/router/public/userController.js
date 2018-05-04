@@ -1,8 +1,8 @@
 const jwtsecret = "countries-react-key";
-const jwt = require('jsonwebtoken');
-const clientDb = require('../../db');
+const jwt       = require('jsonwebtoken');
+const clientDb  = require('../../db');
 
-module.exports.regUser = async function (ctx, next){
+module.exports.regUser = async function (ctx){
     const db       = clientDb.getDB();
     const tempUser = ctx.request.body;
     const matches  = await db.collection('users').findOne({ email: tempUser.email });
@@ -21,7 +21,7 @@ module.exports.regUser = async function (ctx, next){
     }
 }    
 
-module.exports.loginUser = async function (ctx, next){
+module.exports.loginUser = async function (ctx){
     const db       = clientDb.getDB();
     const tempUser = ctx.request.body;
     const match    = await db.collection('users').findOne(tempUser);

@@ -1,5 +1,5 @@
 import { httpGet } from '../../components/helpers';
-import * as types from '../constants';
+import * as types  from '../constants';
 
 export const loginUser = user => ({ type: types.LOGIN_USER, payload: user})
 

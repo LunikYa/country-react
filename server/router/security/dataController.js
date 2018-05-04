@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt      = require('jsonwebtoken');
 const clientDb = require('../../db');
 
 module.exports.getCountries = async function (ctx){
