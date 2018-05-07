@@ -7,8 +7,12 @@ const hostname   = '127.0.0.1';
 const port       = '3000';
 
 async function server() {
-    await mongoCl.connect();
-   
+    const db    = await mongoCl.connect();
+    const stats = await db.stats();
+
+    if (!stats.indexes)
+        require('./initialDb').initial();
+
     app.use(bodyParser());     
     
     app.use(async (ctx, next) => {
