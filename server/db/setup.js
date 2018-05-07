@@ -9,13 +9,13 @@ module.exports.initial = async () => {
     const users     = db.collection('users');
 
     const fileKeys = Object.keys(file)
-
-    for(let i = 0; i < fileKeys.length; i++){
-        const cursor = await countries.insertOne({ name: fileKeys[i] })
         
-        for (let i = 0; i < file[fileKeys[i]].length; i++) {
+    for (let key of fileKeys) {
+        const cursor = await countries.insertOne({ name: key })
+        
+        for (let city of file[key]) {
             await cities.insertOne({
-                name: file[fileKeys[i]][i],
+                name: city,
                 countryId: cursor.ops[0]._id
             })
         }
