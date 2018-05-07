@@ -1,56 +1,46 @@
-const jwt      = require('jsonwebtoken');
-const clientDb = require('../../db');
+const jwt          = require('jsonwebtoken');
+const clientDb     = require('../../db');
+const { ObjectId } = require('mongodb');
 
-module.exports.getCountries = async function (ctx){
-    require('../../initialDb').initial();
-    // const db                = clientDb.getDB();
-    // const resultData        = await db.collection('data').findOne({id: 'countries'});
+module.exports.getCountries = async function (ctx) {
+    const db = clientDb.getDB();
 
-    // ctx.response.status = 200;
-    // ctx.response.body   = resultData.countries;
-}
-
-module.exports.getCities = async function (ctx){
-    const db      = clientDb.getDB();
-    const allDoc  = await db.collection('data').findOne({ id: 'all' });
-    const cities = allDoc.all[ctx.params.country];
-
-    const test = await db.collection('data').save({cities: cities, id: 'cities'});
+    const countries = await db.collection('countries').find().toArray();
 
     ctx.response.status = 200;
-    ctx.response.body   = cities;
+    ctx.response.body = countries;
+}
+
+module.exports.getCities = async function (ctx) {
+    const db = clientDb.getDB();
+
+    const cities = await db.collection('cities').find({ countryId: ObjectId(ctx.params.countryId)}).toArray();
+
+    ctx.response.status = 200;
+    ctx.response.body = cities;
 }
 
 module.exports.getFiltredCountries = async function (ctx){
-    const db   = clientDb.getDB();
-    const val  = ctx.params.val;
-    const res  = await db.collection('data').findOne({id: 'countries'});
-    
-    let filtredArr = (res.countries.filter((a) => {
-        return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
-    }))
+    const db  = clientDb.getDB();
+    const reg = new RegExp(`^${ctx.params.val}`);
 
-    if (filtredArr.length === 0) {
-        filtredArr.push('No matches');
-    }
+    const matches  = await db.collection('countries').find({ name: { $regex: reg }}).toArray();
+
     ctx.response.status = 200;
-    ctx.response.body   = filtredArr;
-    }    
-
+    ctx.response.body   = matches;
+}
 
 module.exports.getFiltredCities = async function (ctx) {
     const db   = clientDb.getDB();
-    const res  = await db.collection('data').findOne({ id: 'cities' });
-    const val  = ctx.params.val;
+    const reg  = new RegExp(`^${ctx.params.val}`);
 
-    let filtredArr = (res.cities.filter((a) => {
-        return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
-    }))
-
-    if (filtredArr.length === 0) {
-        filtredArr.push('No matches');
-    }
+    const matches = await db.collection('cities').find(
+        { 
+            name: { $regex: reg }, 
+            countryId: ObjectId(ctx.params.countryId)
+        }
+    ).toArray();
     
     ctx.response.status = 200;
-    ctx.response.body   = filtredArr;
+    ctx.response.body = matches;
 }

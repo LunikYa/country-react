@@ -3,10 +3,14 @@ const mongoUrl    = "mongodb://localhost:27017/";
 
 var db;
 
-module.exports.connect = async function () {
-    await MongoClient.connect(mongoUrl, (err, client) => {
+module.exports.connect = function () {
+    MongoClient.connect(mongoUrl, async (err, client) => {
         if (err) console.log(err)
-        db = client.db('country-react');
+            db = await client.db('country-react');
+            
+        let stats = await db.stats()
+        if(!stats.collections < 1)
+            require('./initialDb').initial();
     });
 }
 

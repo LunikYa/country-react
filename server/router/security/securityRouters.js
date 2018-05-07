@@ -4,7 +4,7 @@ const { getCountries, getFiltredCountries, getCities, getFiltredCities } = requi
 
 router.get('/countries', getCountries);
 router.get('/countries/filtred/:val', getFiltredCountries);
-router.get('/cities/:country', getCities);
-router.get('/cities/filtred/:val', getFiltredCities);
+router.get('/cities/:countryId', getCities);
+router.get('/cities/filtred/:val/:countryId', getFiltredCities);
 
 module.exports = router;
