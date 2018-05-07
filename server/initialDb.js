@@ -1,6 +1,6 @@
 module.exports.initial = async () => {
-    const db           = require('./db').getDB();
-    const fs           = require('fs');
+    const db = require('./db').getDB();
+    const fs = require('fs');
     
     const file = JSON.parse(fs.readFileSync('./countries.min.json', 'utf8'));
 

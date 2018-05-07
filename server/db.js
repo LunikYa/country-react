@@ -11,7 +11,6 @@ module.exports.connect = async function () {
             res(db)
         });
     })
-   
 }
 
 module.exports.getDB = function () {
