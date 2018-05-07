@@ -11,12 +11,12 @@ module.exports.initial = async () => {
     for (let key in file) {
         const cursor = await countries.insertOne({ name: key })
         
-        for (let j = 0; j < file[key].length; j++) {
+        file[key].forEach(x => {
             cities.insertOne({
-                name: file[key][j],
+                name: x,
                 countryId: cursor.ops[0]._id
             })
-        }
+        });
     }
 
     users.insertMany([

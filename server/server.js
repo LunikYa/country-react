@@ -9,7 +9,7 @@ const port       = '3000';
 async function server() {
     const db    = await mongoCl.connect();
     const stats = await db.stats();
-
+    
     if (!stats.indexes)
         await require('./db/setup').initial();
 
