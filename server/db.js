@@ -3,17 +3,17 @@ const mongoUrl    = "mongodb://localhost:27017/";
 
 var db;
 
-module.exports.connect = function () {
-    MongoClient.connect(mongoUrl, async (err, client) => {
+module.exports.connect = async function () {
+    await MongoClient.connect(mongoUrl, async (err, client) => {
         if (err) console.log(err)
-            db = await client.db('country-react');
-            
-        let stats = await db.stats()
+        db = await client.db('country-react');
+        
+    const stats = db.stats();
         if(!stats.collections < 1)
-            require('./initialDb').initial();
+            await require('./initialDb').initial();
     });
 }
 
 module.exports.getDB = function () {
-    return db;
+   return db
 }

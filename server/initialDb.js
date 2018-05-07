@@ -6,8 +6,8 @@ module.exports.initial = () => {
     const file = JSON.parse(fs.readFileSync('./countries.min.json', 'utf8'));
 
     const countries = db.collection('countries');
-    const cities = db.collection('cities');
-    const users = db.collection('users');
+    const cities    = db.collection('cities');
+    const users     = db.collection('users');
 
     for (let key in file) {
         let countryId = ObjectId();
@@ -18,7 +18,6 @@ module.exports.initial = () => {
 
         for (let j = 0; j < file[key].length; j++) {
             cities.insertOne({
-                _id: ObjectId(j),
                 name: file[key][j],
                 countryId: countryId
             })

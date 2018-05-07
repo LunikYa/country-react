@@ -14,7 +14,7 @@ module.exports.getCountries = async function (ctx) {
 module.exports.getCities = async function (ctx) {
     const db = clientDb.getDB();
 
-    const cities = await db.collection('cities').find({ countryId: ObjectId(ctx.params.countryId)}).toArray();
+    const cities = await db.collection('cities').find({ countryId: ObjectId(ctx.params.countryId) }).toArray();
 
     ctx.response.status = 200;
     ctx.response.body = cities;
