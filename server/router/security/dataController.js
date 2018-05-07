@@ -1,4 +1,3 @@
-const jwt          = require('jsonwebtoken');
 const clientDb     = require('../../db');
 const { ObjectId } = require('mongodb');
 
