@@ -1,6 +1,6 @@
 const jwtsecret = "countries-react-key";
 const jwt       = require('jsonwebtoken');
-const clientDb  = require('../../db');
+const clientDb  = require('../../db/db');
 
 module.exports.regUser = async function (ctx){
     const db       = clientDb.getDB();

@@ -1,4 +1,4 @@
-const clientDb     = require('../../db');
+const clientDb     = require('../../db/db');
 const { ObjectId } = require('mongodb');
 
 module.exports.getCountries = async function (ctx) {

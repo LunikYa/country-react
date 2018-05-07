@@ -2,7 +2,7 @@ module.exports.initial = async () => {
     const db = require('./db').getDB();
     const fs = require('fs');
     
-    const file = JSON.parse(fs.readFileSync('./countries.min.json', 'utf8'));
+    const file = JSON.parse(fs.readFileSync('../data/countries.min.json', 'utf8'));
 
     const countries = db.collection('countries');
     const cities    = db.collection('cities');

@@ -1,7 +1,7 @@
 const Koa        = require('koa');
 const bodyParser = require('koa-bodyparser');
 const rootRouter = require('./router/router.js'); 
-const mongoCl    = require('./db');
+const mongoCl    = require('./db/db');
 const app        = new Koa();
 const hostname   = '127.0.0.1';
 const port       = '3000';
@@ -11,7 +11,7 @@ async function server() {
     const stats = await db.stats();
 
     if (!stats.indexes)
-        require('./initialDb').initial();
+        require('./db/setup').initial();
 
     app.use(bodyParser());     
     
