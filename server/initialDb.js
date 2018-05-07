@@ -1,4 +1,4 @@
-module.exports.initial = () => {
+module.exports.initial = async () => {
     const db           = require('./db').getDB();
     const fs           = require('fs');
     const { ObjectId } = require('mongodb');
@@ -10,16 +10,14 @@ module.exports.initial = () => {
     const users     = db.collection('users');
 
     for (let key in file) {
-        let countryId = ObjectId();
-        countries.insertOne({
-            name: key,
-            _id: countryId
-        })
+        await countries.insertOne({ name: key })
+
+        let country = await countries.findOne({name: key})
 
         for (let j = 0; j < file[key].length; j++) {
             cities.insertOne({
                 name: file[key][j],
-                countryId: countryId
+                countryId: country._id
             })
         }
     }
