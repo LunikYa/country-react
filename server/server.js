@@ -11,7 +11,7 @@ async function server() {
     const stats = await db.stats();
 
     if (!stats.indexes)
-        require('./db/setup').initial();
+        await require('./db/setup').initial();
 
     app.use(bodyParser());     
     
