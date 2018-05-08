@@ -1,9 +1,9 @@
 import { httpGet } from '../../components/helpers';
 import * as types from '../constants';
 
-export const getCountries = (token) => {
+export const getCountries = () => {
     return (dispatch, getState) => {
-        httpGet('http://localhost:3000/countries', token)
+        httpGet('http://localhost:3000/countries')
             .then(
                 countries => {
                     dispatch({
