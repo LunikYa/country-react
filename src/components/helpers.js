@@ -4,7 +4,7 @@
             xhr.open('GET', url, true);
             
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('authorization', token);
+            xhr.setRequestHeader('authorization', localStorage.getItem('token'));
             
             xhr.onload = function () {
                 if (this.status == 200) {

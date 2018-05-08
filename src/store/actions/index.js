@@ -9,7 +9,7 @@ export const loginUser = user => {
 }
 export const getCountries = () => {
     return (dispatch, getState) => {
-        httpGet('http://localhost:3000/countries', localStorage.getItem('token'))
+        httpGet('http://localhost:3000/countries')
             .then(
                 countries => {
                     dispatch({
@@ -29,7 +29,7 @@ export const getCountries = () => {
 
 export const getCities = (val) => {
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/${val}`, localStorage.getItem('token'))
+        httpGet(`http://localhost:3000/cities/${val}`)
             .then(
                 cities => {
                     dispatch({
@@ -43,7 +43,7 @@ export const getCities = (val) => {
 
 export const filterCountry = val =>{
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/countries/filtred/${val}`, localStorage.getItem('token'))
+        httpGet(`http://localhost:3000/countries/filtred/${val}`)
             .then(
                 countries => {
                     dispatch({
@@ -57,7 +57,7 @@ export const filterCountry = val =>{
 
 export const filterCity = val => {
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/filtred/${val}`, localStorage.getItem('token'))
+        httpGet(`http://localhost:3000/cities/filtred/${val}`)
             .then(
                 cities => {
                     dispatch({

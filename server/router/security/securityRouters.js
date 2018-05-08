@@ -7,5 +7,4 @@ router.get('/countries/filtred/:val', getFiltredCountries);
 router.get('/cities/:countryId', getCities);
 router.get('/cities/filtred/:val', filtredCities);
 
-
 module.exports = router;
