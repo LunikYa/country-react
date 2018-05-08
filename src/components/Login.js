@@ -17,7 +17,7 @@ class Login extends Component {
     }
 
     loginUser = (form) => {
-        httpPost(`http://localhost:3000/login`, `email=${form.email.value}&password=${form.password.value}`, null)
+        httpPost(`http://localhost:3000/login`, `email=${form.email.value}&password=${form.password.value}`)
             .then(resolve => {
                 this.props.dispatch(loginUser(resolve));
                 this.props.dispatch(push('/country'));

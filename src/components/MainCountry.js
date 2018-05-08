@@ -5,14 +5,20 @@ import City                 from './City';
 import { push }             from 'react-router-redux';
 import { filterCity, filterCountry, getCountries, getCities} from '../store/actions';
 
-
 class MainCountry extends Component {
     updateLists = (val) => {
-        this.props.dispatch(filterCountry(val || 'all'))
+        if(val) 
+            this.props.dispatch(filterCountry(val));
+        else 
+            this.props.dispatch(getCountries())
     }
 
-    updateCityList = (val) => {
-        val ? this.props.dispatch(filterCity(e.target.value)) : this.props.dispatch(getCities());
+    updateCityList = (event) => {
+        let val = event.target.value;
+        if(val)
+            this.props.dispatch(filterCity(val))
+        else
+            this.props.dispatch(getCities());
     }
 
     goLogin = () =>{
@@ -26,9 +32,8 @@ class MainCountry extends Component {
         } 
         return <div>
                     {this.props.dispatch(getCities())}
-                    <div className='link' onClick={this.goLogin}>GO BACK</div>
                     <div className='conteiner-list left'>
-                        <input type="text" placeholder='Filter' className='filter-input' onInput={(e) => { this.updateCountryList(e.target.value) }} />
+                        <input type="text" placeholder='Filter' className='filter-input' onInput={(e) => { this.updateLists(e.target.value) }} />
                         <Country />
                     </div>
                 </div>
@@ -39,8 +44,8 @@ class MainCountry extends Component {
             return <div>Loading...</div>
         } 
         return  <div className='conteiner-list right'>
-            <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
-                    <City />
+                        <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
+                        <City />
                 </div>            
     }
     render(){

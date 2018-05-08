@@ -23,9 +23,9 @@ export const getCountries = () => {
     }
 }
 
-export const getCities = (data) => {
+export const getCities = () => {
     return (dispatch, getState) => {
-        let val = data || getState().countriesState.countries[1];
+        let val = getState().countriesState.currentCountry._id;
         httpGet(`http://localhost:3000/cities/${val}`, getState().user.user.token || null)
             .then(
                 resolve => {
@@ -53,9 +53,9 @@ export const filterCountry = val =>{
 }
 
 export const filterCity = val => {
-    if(!val) val = 'all'
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/filtred/${val}`, getState().user.user.token || null)
+        let countryId = getState().countriesState.currentCountry._id;
+        httpGet(`http://localhost:3000/cities/filtred/${val}/${countryId}`, getState().user.user.token || null)
             .then(
                 resolve => {
                     dispatch({
@@ -64,5 +64,12 @@ export const filterCity = val => {
                     })
                 }
             ) 
+    }
+}
+
+export const chooseCountry = (country) => {
+    return {
+        type: types.CHOOSE_COUNTRY,
+        payload: country
     }
 }

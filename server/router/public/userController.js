@@ -5,6 +5,7 @@ const clientDb  = require('../../db/db');
 module.exports.regUser = async function (ctx){
     const db       = clientDb.getDB();
     const tempUser = ctx.request.body;
+
     const matches  = await db.collection('users').findOne({ email: tempUser.email });
    
     if (matches){   
@@ -24,6 +25,7 @@ module.exports.regUser = async function (ctx){
 module.exports.loginUser = async function (ctx){
     const db       = clientDb.getDB();
     const tempUser = ctx.request.body;
+
     const match    = await db.collection('users').findOne(tempUser);
 
     if(match){

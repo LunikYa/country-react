@@ -11,7 +11,7 @@ module.exports.initial = async () => {
     const fileKeys = Object.keys(file)
         
     for (let key of fileKeys) {
-        const cursor = await countries.insertOne({ name: key })
+        const cursor = await countries.insertOne({ name: key})
         
         for (let city of file[key]) {
             await cities.insertOne({

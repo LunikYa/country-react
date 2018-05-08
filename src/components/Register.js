@@ -115,16 +115,14 @@ class Register extends Component {
     }
     
     createUser = (form) => {
-        let user = {
-            email: form['email'].value,
-            name: form['name'].value,
-            surname: form['surname'].value,
-            password: form['password'].value
-        };
+        let user = `email=${form['email'].value}&
+                    password=${form['password'].value}&
+                    name=${form['name'].value}&
+                    surname=${form['surname'].value}`;
 
-        httpPost(`http://localhost:3000/users/${user.name}`, user, null)
+        httpPost(`http://localhost:3000/register`, user)
             .then(resolve =>{
-                this.props.dispatch(loginUser(user));
+                this.props.dispatch(loginUser(resolve));
                 this.props.dispatch(push('/country'))  
             },
             reject => {

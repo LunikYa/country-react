@@ -21,17 +21,23 @@ module.exports.getCities = async function (ctx) {
 
 module.exports.getFiltredCountries = async function (ctx){
     const db  = clientDb.getDB();
-    const reg = new RegExp(`^${ctx.params.val}`);
+    const reg = new RegExp(`^${ctx.params.val}`, 'i');
 
     const matches  = await db.collection('countries').find({ name: { $regex: reg }}).toArray();
-
-    ctx.response.status = 200;
-    ctx.response.body   = matches;
+    
+    if (matches.length) {
+        ctx.response.status = 200;
+        ctx.response.body   = matches;
+    } else {
+        ctx.response.status = 200;
+        ctx.response.body = [{name: 'No Matches'}];
+    }
+    
 }
 
 module.exports.getFiltredCities = async function (ctx) {
     const db   = clientDb.getDB();
-    const reg  = new RegExp(`^${ctx.params.val}`);
+    const reg = new RegExp(`^${ctx.params.val}`, 'i');
 
     const matches = await db.collection('cities').find(
         { 

@@ -1,7 +1,11 @@
  export function httpGet(url, token) {
         return new Promise(function (resolve, reject) {
-            let xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
+            
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('authorization', token);
+            
             xhr.onload = function () {
                 if (this.status == 200) {
                     try {
@@ -18,12 +22,11 @@
             xhr.onerror = function () {
                 reject(new Error('Network Error'));
             };
-            xhr.setRequestHeader('x-access-token', token, true)
             xhr.send();
         });
     };
 
-export function httpPost(url, data = {}, token) {
+export function httpPost(url, data) {
     return new Promise((resolve, reject) => {
         const x = new XMLHttpRequest();
         x.onerror = () => reject(new Error('jsonPost failed'))
@@ -41,7 +44,6 @@ export function httpPost(url, data = {}, token) {
                 reject(error);
             }
         };
-        x.setRequestHeader('x-access-token', token, true);
         x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         x.send(data)
     })

@@ -1,4 +1,5 @@
 const Koa        = require('koa');
+const cors       = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
 const rootRouter = require('./router/router.js'); 
 const mongoCl    = require('./db/db');
@@ -12,20 +13,20 @@ async function server() {
     
     if (!stats.indexes)
         await require('./db/setup').initial();
-
+    
     app.use(bodyParser());     
     
     app.use(async (ctx, next) => {
         ctx.set('Access-Control-Allow-Origin', '*');
-        ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
+        ctx.set('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization');
         ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
         await next();
-    })
-    
+    }).use(cors())
+
     app.use(rootRouter.routes())
     
     app.on('error', (err, ctx) => {
-        console.log('server error', err, ctx)
+        console.log('server error', err)
     });
 
     app.listen(port, hostname, (e) => {

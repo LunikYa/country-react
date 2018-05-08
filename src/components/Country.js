@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect }          from 'react-redux';
-import { getCities }        from '../store/actions';
+import { chooseCountry, getCities} from '../store/actions';
 
 class Country extends Component {
     choosed = (country) => {
-       this.props.dispatch(getCities(country))
+        this.props.dispatch(chooseCountry(country));
+        this.props.dispatch(getCities(country._id))
     }
 
     render() {
@@ -13,7 +14,9 @@ class Country extends Component {
                 <h2>Country</h2>
                 <ul className='list-general'>
                     {this.props.countries.map((country, i)=>{                        
-                        return <a onClick={()=>this.choosed(country)} key={i}><li>{country}</li></a>
+                        return  <a onClick={() => this.choosed(country)} key={i}>
+                                    <li>{country.name}</li>
+                                </a>
                     })}
                 </ul>
             </div>
