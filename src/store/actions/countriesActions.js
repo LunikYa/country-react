@@ -1,15 +1,9 @@
 import { httpGet } from '../../components/helpers';
-import * as types  from '../constants';
+import * as types from '../constants';
 
-export const loginUser = user => {
-    return {
-        type: types.LOGIN_USER,
-        payload: user
-    }
-}
-export const getCountries = () => {
+export const getCountries = (token) => {
     return (dispatch, getState) => {
-        httpGet('http://localhost:3000/countries')
+        httpGet('http://localhost:3000/countries', token)
             .then(
                 countries => {
                     dispatch({
@@ -27,9 +21,9 @@ export const getCountries = () => {
     }
 }
 
-export const getCities = (val) => {
+export const getCities = (val, token) => {
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/${val}`)
+        httpGet(`http://localhost:3000/cities/${val}`, token)
             .then(
                 cities => {
                     dispatch({
@@ -41,9 +35,9 @@ export const getCities = (val) => {
     }
 }
 
-export const filterCountry = val =>{
+export const filterCountry = (val, token) =>{
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/countries/filtred/${val}`)
+        httpGet(`http://localhost:3000/countries/filtred/${val}`, token)
             .then(
                 countries => {
                     dispatch({
@@ -55,9 +49,9 @@ export const filterCountry = val =>{
     }
 }
 
-export const filterCity = val => {
+export const filterCity = (val, token) => {
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/filtred/${val}`)
+        httpGet(`http://localhost:3000/cities/filtred/${val}`, token)
             .then(
                 cities => {
                     dispatch({

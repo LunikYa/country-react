@@ -3,20 +3,20 @@ import { connect }          from 'react-redux';
 import Country              from './Country';
 import City                 from './City';
 import { push }             from 'react-router-redux';
-import { filterCity, filterCountry, getCountries, getCities} from '../store/actions';
+import { filterCity, filterCountry, getCountries, getCities} from '../store/actions/countriesActions';
 
 class MainCountry extends Component {
     updateLists = (val) => {
         if(val) 
-            this.props.dispatch(filterCountry(val));
+            this.props.dispatch(filterCountry(val, localStorage.getItem('token')));
         else
-            this.props.dispatch(getCountries(this.props.currentCountry));
+            this.props.dispatch(getCountries(localStorage.getItem('token')));
     }
 
     updateCityList = (event) => {
         let val = event.target.value;
         if(val)
-            this.props.dispatch(filterCity(val));
+            this.props.dispatch(filterCity(val, localStorage.getItem('token')));
     }
 
     goLogin = () =>{
@@ -25,11 +25,11 @@ class MainCountry extends Component {
 
     get countryListRender() {
         if (!this.props.countriesCompleted) {
-            this.props.dispatch(getCountries())
+            this.props.dispatch(getCountries(localStorage.getItem('token')))
             return <div>Loading...</div>
         } 
         if(this.props.currentCountry){
-            this.props.dispatch(getCities(this.props.currentCountry))
+            this.props.dispatch(getCities(this.props.currentCountry, localStorage.getItem('token')))
         }
 
             return  <div className='conteiner-list left'>

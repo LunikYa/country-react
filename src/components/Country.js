@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect }          from 'react-redux';
-import { chooseCountry, getCities} from '../store/actions';
+import { chooseCountry, getCities} from '../store/actions/countriesActions';
 
 class Country extends Component {
     choosed = (country) => {
         this.props.dispatch(chooseCountry(country));
-        this.props.dispatch(getCities(country._id))
+        this.props.dispatch(getCities(country._id, localStorage.getItem('token')))
     }
 
     render() {

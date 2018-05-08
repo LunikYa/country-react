@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { loginUser }      from '../store/actions';
+import { loginUser }      from '../store/actions/usersActions';
 import { connect }        from 'react-redux';
 import { push }           from 'react-router-redux';
 import { httpPost }       from './helpers';
@@ -17,16 +17,8 @@ class Login extends Component {
     }
 
     loginUser = (form) => {
-        httpPost(`http://localhost:3000/login`, `email=${form.email.value}&password=${form.password.value}`)
-            .then(user => {
-                this.props.dispatch(loginUser(user));
-                this.props.dispatch(push('/country'));
-
-            }, error => {
-                console.log('reject', error)
-                this.showError('*User not found', form.email);
-            })
-        event.preventDefault();        
+        this.props.dispatch(loginUser(`email=${form.email.value}&password=${form.password.value}`));
+        event.preventDefault();
     }
 
     validateForm = (event) => {
@@ -138,4 +130,10 @@ class Login extends Component {
     }
 }
 
-export default connect(null)(Login);
+function map(state){
+    return {
+        user: state.user.user
+    }
+}
+
+export default connect(map)(Login);

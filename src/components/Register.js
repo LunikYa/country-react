@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect }        from 'react-redux';
 import { push }           from 'react-router-redux';
-import { loginUser }      from '../store/actions';
+import { regUser }      from '../store/actions/usersActions';
 import { httpPost }       from './helpers';
 
 class Register extends Component {
@@ -120,14 +120,7 @@ class Register extends Component {
                     name=${form['name'].value}&
                     surname=${form['surname'].value}`;
 
-        httpPost(`http://localhost:3000/register`, user)
-            .then(resolve =>{
-                this.props.dispatch(loginUser(resolve));
-                this.props.dispatch(push('/country'))  
-            },
-            reject => {
-                this.showError(reject.message, form.email)
-            })
+        this.props.dispatch(regUser(user))
         event.preventDefault()
     }
 

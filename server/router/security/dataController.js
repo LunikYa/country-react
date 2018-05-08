@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 
 module.exports.getCountries = async function (ctx) {
     const db = clientDb.getDB();
-
+    
     const countries = await db.collection('countries').find().toArray();
 
     ctx.response.status = 200;
