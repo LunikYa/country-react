@@ -1,5 +1,4 @@
 const Koa        = require('koa');
-const cors       = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
 const rootRouter = require('./router/router.js'); 
 const mongoCl    = require('./db/db');
@@ -21,7 +20,7 @@ async function server() {
         ctx.set('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization');
         ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
         await next();
-    }).use(cors())
+    })
 
     app.use(rootRouter.routes())
     

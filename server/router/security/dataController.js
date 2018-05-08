@@ -32,7 +32,6 @@ module.exports.getFiltredCountries = async function (ctx){
         ctx.response.status = 200;
         ctx.response.body = [{name: 'No Matches'}];
     }
-    
 }
 
 module.exports.getFiltredCities = async function (ctx) {
@@ -45,7 +44,11 @@ module.exports.getFiltredCities = async function (ctx) {
             countryId: ObjectId(ctx.params.countryId)
         }
     ).toArray();
-    
-    ctx.response.status = 200;
-    ctx.response.body = matches;
+    if (matches.length){
+        ctx.response.status = 200;
+        ctx.response.body   = matches;
+    } else {
+        ctx.response.status = 200;
+        ctx.response.body = [{name: 'No Matches'}];
+    }
 }
