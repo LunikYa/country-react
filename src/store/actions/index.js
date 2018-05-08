@@ -23,9 +23,8 @@ export const getCountries = () => {
     }
 }
 
-export const getCities = () => {
+export const getCities = (val) => {
     return (dispatch, getState) => {
-        let val = getState().countriesState.currentCountry._id;
         httpGet(`http://localhost:3000/cities/${val}`, getState().user.user.token || null)
             .then(
                 resolve => {
