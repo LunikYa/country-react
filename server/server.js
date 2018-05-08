@@ -17,8 +17,8 @@ async function server() {
     
     app.use(async (ctx, next) => {
         ctx.set('Access-Control-Allow-Origin', '*');
-        ctx.set('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization');
-        ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
+        ctx.set('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
+        ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
         await next();
     })
 

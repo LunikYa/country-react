@@ -6,15 +6,16 @@ export const loginUser = tempUser => {
     return (dispatch, getState) => {
         httpPost(`http://localhost:3000/login`, tempUser)
             .then(
-            user => {
-                dispatch({
-                    type: types.LOGIN_USER,
-                    payload: user
+                user => {
+                    localStorage.setItem('token', user.token)
+                    dispatch({
+                        type: types.LOGIN_USER,
+                        payload: user
+                    })
+                    dispatch(push('/country'))
+                }, error => {
+                    console.log('reject', error)
                 })
-                dispatch(push('/country'))
-            }, error => {
-                console.log('reject', error)
-            })
     }  
 }
 
@@ -22,14 +23,14 @@ export const regUser = regUser => {
     return (dispatch, getState) => {
         httpPost(`http://localhost:3000/register`, regUser)
             .then(
-            user => {
-                dispatch({
-                    type: types.LOGIN_USER,
-                    payload: user
+                user => {
+                    dispatch({
+                        type: types.LOGIN_USER,
+                        payload: user
+                    })
+                    dispatch(push('/country'))
+                }, error => {
+                    console.log('reject', error)
                 })
-                dispatch(push('/country'))
-            }, error => {
-                console.log('reject', error)
-            })
     }
 }

@@ -5,7 +5,7 @@ import { chooseCountry, getCities} from '../store/actions/countriesActions';
 class Country extends Component {
     choosed = (country) => {
         this.props.dispatch(chooseCountry(country));
-        this.props.dispatch(getCities(country._id, localStorage.getItem('token')))
+        this.props.dispatch(getCities(country._id))
     }
 
     render() {

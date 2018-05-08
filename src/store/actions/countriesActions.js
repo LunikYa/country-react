@@ -21,9 +21,9 @@ export const getCountries = (token) => {
     }
 }
 
-export const getCities = (val, token) => {
+export const getCities = val => {
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/${val}`, token)
+        httpGet(`http://localhost:3000/cities/${val}`)
             .then(
                 cities => {
                     dispatch({
@@ -35,9 +35,9 @@ export const getCities = (val, token) => {
     }
 }
 
-export const filterCountry = (val, token) =>{
+export const filterCountry = val =>{
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/countries/filtred/${val}`, token)
+        httpGet(`http://localhost:3000/countries/filtred/${val}`)
             .then(
                 countries => {
                     dispatch({
@@ -49,9 +49,9 @@ export const filterCountry = (val, token) =>{
     }
 }
 
-export const filterCity = (val, token) => {
+export const filterCity = val => {
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/filtred/${val}`, token)
+        httpGet(`http://localhost:3000/cities/filtred/${val}`)
             .then(
                 cities => {
                     dispatch({
