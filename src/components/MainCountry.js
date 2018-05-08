@@ -6,7 +6,8 @@ import { push }             from 'react-router-redux';
 import { filterCity, filterCountry, getCountries, getCities } from '../store/actions/countriesActions';
 
 class MainCountry extends Component {
-    updateLists = (val) => {
+    updateLists = (event) => {
+        let val = event.target.value;
         if(val) 
             this.props.dispatch(filterCountry(val));
         else
@@ -33,7 +34,7 @@ class MainCountry extends Component {
         }
 
             return  <div className='conteiner-list left'>
-                        <input type="text" placeholder='Filter' className='filter-input' onInput={(e) => { this.updateLists(e.target.value) }} />
+                        <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
                         <Country />
                     </div>
     }
