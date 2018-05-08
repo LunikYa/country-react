@@ -9,7 +9,7 @@ class MainCountry extends Component {
     updateLists = (val) => {
         if(val) 
             this.props.dispatch(filterCountry(val));
-        else 
+        else
             this.props.dispatch(getCountries(this.props.currentCountry));
     }
 
@@ -17,8 +17,6 @@ class MainCountry extends Component {
         let val = event.target.value;
         if(val)
             this.props.dispatch(filterCity(val));
-        else
-            this.props.dispatch(getCities(this.props.currentCountry));
     }
 
     goLogin = () =>{
@@ -30,13 +28,14 @@ class MainCountry extends Component {
             this.props.dispatch(getCountries())
             return <div>Loading...</div>
         } 
-        return <div>
-                    {this.props.dispatch(getCities(this.props.currentCountry))}
-                    <div className='conteiner-list left'>
+        if(this.props.currentCountry){
+            this.props.dispatch(getCities(this.props.currentCountry))
+        }
+
+            return  <div className='conteiner-list left'>
                         <input type="text" placeholder='Filter' className='filter-input' onInput={(e) => { this.updateLists(e.target.value) }} />
                         <Country />
                     </div>
-                </div>
     }
     
     get cityListRender(){
@@ -59,7 +58,6 @@ class MainCountry extends Component {
 }
 
 function mapStateTopProps(state) {
-    console.log(state)
     return {
         citiesCompleted: state.countriesState.citiesCompleted,
         countriesCompleted: state.countriesState.countriesCompleted,

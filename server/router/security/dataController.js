@@ -34,16 +34,12 @@ module.exports.getFiltredCountries = async function (ctx){
     }
 }
 
-module.exports.getFiltredCities = async function (ctx) {
-    const db   = clientDb.getDB();
+module.exports.filtredCities = async function (ctx) {
+    const db  = clientDb.getDB();
     const reg = new RegExp(`^${ctx.params.val}`, 'i');
 
-    const matches = await db.collection('cities').find(
-        { 
-            name: { $regex: reg }, 
-            countryId: ObjectId(ctx.params.countryId)
-        }
-    ).toArray();
+    const matches = await db.collection('cities').find({ name: { $regex: reg } }).toArray();
+
     if (matches.length){
         ctx.response.status = 200;
         ctx.response.body   = matches;

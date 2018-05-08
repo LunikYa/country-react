@@ -18,11 +18,12 @@ class Login extends Component {
 
     loginUser = (form) => {
         httpPost(`http://localhost:3000/login`, `email=${form.email.value}&password=${form.password.value}`)
-            .then(resolve => {
-                this.props.dispatch(loginUser(resolve));
+            .then(user => {
+                this.props.dispatch(loginUser(user));
                 this.props.dispatch(push('/country'));
-            }, reject => {
-                console.log('reject', reject)
+
+            }, error => {
+                console.log('reject', error)
                 this.showError('*User not found', form.email);
             })
         event.preventDefault();        

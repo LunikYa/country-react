@@ -1,22 +1,26 @@
 import { httpGet } from '../../components/helpers';
 import * as types  from '../constants';
 
-export const loginUser = user => ({ type: types.LOGIN_USER, payload: user})
-
+export const loginUser = user => {
+    return {
+        type: types.LOGIN_USER,
+        payload: user
+    }
+}
 export const getCountries = () => {
     return (dispatch, getState) => {
-        httpGet('http://localhost:3000/countries', getState().user.user.token || null)
+        httpGet('http://localhost:3000/countries', localStorage.getItem('token'))
             .then(
-                resolve => {
+                countries => {
                     dispatch({
                         type: types.GET_COUNTRIES_SUCCES,
-                        payload: resolve
+                        payload: countries
                     })
                 },
-                reject => {
+                error => {
                     dispatch({
                         type: types.GET_COUNTRIES_ERROR,
-                        payload: reject
+                        payload: error
                     })
                 }
             );
@@ -25,12 +29,12 @@ export const getCountries = () => {
 
 export const getCities = (val) => {
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/${val}`, getState().user.user.token || null)
+        httpGet(`http://localhost:3000/cities/${val}`, localStorage.getItem('token'))
             .then(
-                resolve => {
+                cities => {
                     dispatch({
                         type: types.GET_CITIES_SUCCES,
-                        payload: resolve
+                        payload: cities
                     })
                 }
             )
@@ -39,12 +43,12 @@ export const getCities = (val) => {
 
 export const filterCountry = val =>{
     return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/countries/filtred/${val}`, getState().user.user.token || null)
+        httpGet(`http://localhost:3000/countries/filtred/${val}`, localStorage.getItem('token'))
             .then(
-                resolve => {
+                countries => {
                     dispatch({
                         type: types.FILTER_COUNTRY,
-                        payload: resolve
+                        payload: countries
                     })
                 }
             )        
@@ -53,13 +57,12 @@ export const filterCountry = val =>{
 
 export const filterCity = val => {
     return (dispatch, getState) => {
-        let countryId = getState().countriesState.currentCountry._id;
-        httpGet(`http://localhost:3000/cities/filtred/${val}/${countryId}`, getState().user.user.token || null)
+        httpGet(`http://localhost:3000/cities/filtred/${val}`, localStorage.getItem('token'))
             .then(
-                resolve => {
+                cities => {
                     dispatch({
                         type: types.FILTER_CITY,
-                        payload: resolve
+                        payload: cities
                     })
                 }
             ) 
