@@ -41,7 +41,10 @@ class Register extends Component {
                 }
             }
         }
-        (result) ? this.createUser(form) : event.preventDefault();
+        if (result)
+            this.props.createUser(form);
+            
+        event.preventDefault();
     }
 
     isValidemail = (input) => {
@@ -113,16 +116,6 @@ class Register extends Component {
         }
     }
     
-    createUser = (form) => {
-        let user = `email=${form['email'].value}&
-                    password=${form['password'].value}&
-                    name=${form['name'].value}&
-                    surname=${form['surname'].value}`;
-
-        this.props.dispatch(regUser(user))
-        event.preventDefault()
-    }
-
     get emailClass() {
         if (this.state.email.accepted) {
             return 'accept-input';
@@ -162,10 +155,6 @@ class Register extends Component {
             return 'default-input';
         }
     }
-
-    goLog = () => {
-        this.props.dispatch(push('/'))
-    }
    
     render(){
         const {name, surname, email, password} = this.state;
@@ -192,10 +181,23 @@ class Register extends Component {
                     
                     <button className='button'>Submit</button>
                 </form>
-                <p className='link' onClick={this.goLog}>Go to Login</p>
+                <p className='link' onClick={this.props.goLogin}>Go to Login</p>
             </div>
         )
     }
 }
-
-export default connect(null)(Register);
+function mapDispatchToProps(dispatch) {
+    return {
+        createUser: (form) => {
+            dispatch(regUser
+                (
+                `email=${form['email'].value}&
+                password=${form['password'].value}&
+                name=${form['name'].value}&
+                surname=${form['surname'].value}`
+                ))
+        },
+        goLogin: () => { dispatch(push('/')) }
+    }
+}
+export default connect(null, mapDispatchToProps)(Register);
