@@ -1,9 +1,9 @@
-import { httpGet } from '../../helpers';
+import { http } from '../../helpers';
 import * as types from '../constants';
 
 export const getCities = val => {
     return (dispatch) => {
-        httpGet(`http://localhost:3000/cities/${val}`)
+        http(`http://localhost:3000/cities/${val}`, 'GET')
             .then(
                 cities => {
                     dispatch({
@@ -17,7 +17,7 @@ export const getCities = val => {
 
 export const filterCities = val => {
     return (dispatch) => {
-        httpGet(`http://localhost:3000/cities/filtred/${val}`)
+        http(`http://localhost:3000/cities/filtred/${val}`, 'GET')
             .then(
                 cities => {
                     dispatch({

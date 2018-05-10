@@ -4,7 +4,7 @@ import Country              from './Country';
 import City                 from './City';
 import { push }             from 'react-router-redux';
 import { filterCountries, getCountries } from '../store/actions/countriesActions';
-import { getCities, filterCities} from '../store/actions/citiesActions'
+import { getCities, filterCities } from '../store/actions/citiesActions'
 
 class MainCountry extends Component {
     updateLists = (event) => {
@@ -29,15 +29,15 @@ class MainCountry extends Component {
             this.props.citiesGet(this.props.idCurrentCountry)
         } 
         return <div>
-            <div className='conteiner-list left'>
-                <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
-                <Country />
-            </div>
-            <div className='conteiner-list right'>
-                <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
-                <City />
-            </div>
-        </div>
+                    <div className='conteiner-list left'>
+                        <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
+                        <Country />
+                    </div>
+                    <div className='conteiner-list right'>
+                        <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
+                        <City />
+                    </div>
+                </div>
     }
     
     render(){

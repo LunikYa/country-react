@@ -1,9 +1,9 @@
-import { httpGet } from '../../helpers';
+import { http } from '../../helpers';
 import * as types from '../constants';
 
 export const getCountries = () => {
     return (dispatch, getState) => {
-        httpGet('http://localhost:3000/countries')
+        http('http://localhost:3000/countries', 'GET')
             .then(
                 countries => {
                     dispatch({
@@ -17,7 +17,7 @@ export const getCountries = () => {
 
 export const filterCountries = val =>{
     return (dispatch) => {
-        httpGet(`http://localhost:3000/countries/filtred/${val}`)
+        http(`http://localhost:3000/countries/filtred/${val}`, 'GET')
             .then(
                 countries => {
                     dispatch({
@@ -38,7 +38,7 @@ export const chooseCountry = (countryId) => {
 
 export const getCountryByCity = (cityId) => {
     return (dispatch) => {
-        httpGet(`http://localhost:3000/country/${cityId}`)
+        http(`http://localhost:3000/country/${cityId}`, 'GET')
             .then(
                 country => {
                     dispatch({
