@@ -14,11 +14,16 @@ async function server() {
         await require('./db/setup').initial();
     
     app.use(bodyParser());     
-    
+
     app.use(async (ctx, next) => {
         ctx.set('Access-Control-Allow-Origin', '*');
-        ctx.set('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
+        ctx.set('Access-Control-Allow-Headers', 'Content-Type, Accept, authorization, Origin');
         ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+        ctx.set('Access-Control-Request-Method', 'POST');
+        ctx.set('Access-Control-Request-Headers', 'authorization');
+        if (ctx.method == 'OPTIONS' && ctx.headers['access-control-request-headers'] === 'authorization') {
+            ctx.response.status = 200;
+        }
         await next();
     })
 

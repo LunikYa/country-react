@@ -44,6 +44,6 @@ module.exports.loginUser = async function (ctx){
         }
     } else {
         ctx.response.status  = 401;
-        ctx.response.message = `User ${tempUser.email} not found`;
+        ctx.response.message = `Username or Password is Wrong`;
     }
 }
