@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
 
-module.exports.verifyToken = async function (ctx, next) {
+module.exports = async function (ctx, next) {
+    const jwt = require('jsonwebtoken');
     const token = ctx.request.header['authorization'];
     let isUser = false;
 
@@ -20,5 +20,4 @@ module.exports.verifyToken = async function (ctx, next) {
         if (isUser)
             await next()
     }
-    
 }

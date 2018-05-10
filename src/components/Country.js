@@ -8,7 +8,6 @@ class Country extends Component {
                 <div className='list'>
                     <h2>Country</h2>
                     <ul className='list-general'>
-                        {/* {this.main} */}
                         { this.props.countries.map((country, i) => {
                             return <a onClick={() => this.props.choosed(country._id)} key={i}>
                                 <li>{country.name}</li>

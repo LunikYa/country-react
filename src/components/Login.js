@@ -29,7 +29,9 @@ class Login extends Component {
                 }
             }
         }
-        (result) ? this.props.loginUser(form) : event.preventDefault();
+        if(result)
+            this.props.loginUser(form);
+            
         event.preventDefault()
     }
 
@@ -122,7 +124,7 @@ class Login extends Component {
     }
 }
 
-function mapStateToProps(state, ...two){
+function mapStateToProps(state){
     return {
         user: state.userState.user
     }
