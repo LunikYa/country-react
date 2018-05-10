@@ -17,7 +17,6 @@ class App extends Component {
             this.props.dispatch(push('/'))
         }
     }
-
     render(){
         return (  
             <div className='wrapp'>

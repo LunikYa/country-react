@@ -2,7 +2,6 @@ const Koa        = require('koa');
 const bodyParser = require('koa-bodyparser');
 const rootRouter = require('./router/router.js'); 
 const mongoCl    = require('./db/db');
-const fs = require('fs')
 const app        = new Koa();
 const hostname   = '127.0.0.1';
 const port       = '3000';
