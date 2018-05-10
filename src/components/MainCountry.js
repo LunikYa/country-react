@@ -25,22 +25,22 @@ class MainCountry extends Component {
     }
 
     get countryListRender() {
-        if (!this.props.currentCountry) {
+        if (!this.props.isLoaded) {
             this.props.dispatch(getCountries())
             return <div>Loading...</div>
-        } else {
+        } else if (this.props.currentCountry){
             this.props.dispatch(getCities(this.props.currentCountry))
-            return <div>
-                <div className='conteiner-list left'>
-                    <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
-                    <Country />
-                </div>
-                <div className='conteiner-list right'>
-                    <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
-                    <City />
-                </div>
+        } 
+        return <div>
+            <div className='conteiner-list left'>
+                <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
+                <Country />
             </div>
-        }
+            <div className='conteiner-list right'>
+                <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
+                <City />
+            </div>
+        </div>
     }
     
     render(){
@@ -54,6 +54,7 @@ class MainCountry extends Component {
 
 function mapStateTopProps(state) {
     return {
+        isLoaded: state.countriesState.countriesLoaded,
         currentCountry: state.countriesState.currentCountry._id
     }    
 }
