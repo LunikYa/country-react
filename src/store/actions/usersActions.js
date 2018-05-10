@@ -24,6 +24,7 @@ export const regUser = regUser => {
         httpPost(`http://localhost:3000/register`, regUser)
             .then(
                 user => {
+                    localStorage.setItem('token', user.token)
                     dispatch({
                         type: types.LOGIN_USER,
                         payload: user
