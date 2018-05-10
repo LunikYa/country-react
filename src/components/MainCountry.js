@@ -50,7 +50,6 @@ class MainCountry extends Component {
 }
 
 function mapStateTopProps(state) {
-    console.log(state)
     return {
         isLoaded: state.countriesState.countriesLoaded,
         idCurrentCountry: state.countriesState.idCurrentCountry
