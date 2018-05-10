@@ -1,4 +1,4 @@
-import { httpGet } from '../../components/helpers';
+import { httpGet } from '../../helpers';
 import * as types from '../constants';
 
 export const getCountries = () => {
@@ -10,33 +10,13 @@ export const getCountries = () => {
                         type: types.GET_COUNTRIES_SUCCES,
                         payload: countries
                     })
-                },
-                error => {
-                    dispatch({
-                        type: types.GET_COUNTRIES_ERROR,
-                        payload: error
-                    })
                 }
             );
     }
 }
 
-export const getCities = val => {
-    return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/${val}`)
-            .then(
-                cities => {
-                    dispatch({
-                        type: types.GET_CITIES_SUCCES,
-                        payload: cities
-                    })
-                }
-            );
-    }
-}
-
-export const filterCountry = val =>{
-    return (dispatch, getState) => {
+export const filterCountries = val =>{
+    return (dispatch) => {
         httpGet(`http://localhost:3000/countries/filtred/${val}`)
             .then(
                 countries => {
@@ -49,23 +29,24 @@ export const filterCountry = val =>{
     }
 }
 
-export const filterCity = val => {
-    return (dispatch, getState) => {
-        httpGet(`http://localhost:3000/cities/filtred/${val}`)
-            .then(
-                cities => {
-                    dispatch({
-                        type: types.FILTER_CITY,
-                        payload: cities
-                    })
-                }
-            );
+export const chooseCountry = (countryId) => {
+    return {
+        type: types.CHOOSE_COUNTRY,
+        payload: countryId
     }
 }
 
-export const chooseCountry = (country) => {
-    return {
-        type: types.CHOOSE_COUNTRY,
-        payload: country
+export const getCountryByCity = (cityId) => {
+    return (dispatch) => {
+        httpGet(`http://localhost:3000/country/${cityId}`)
+            .then(
+                country => {
+                    dispatch({
+                        type: types.GET_COUNTRY_BY_CITY,
+                        payload: country
+                    })
+                }
+            )
     }
+
 }

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { loginUser }      from '../store/actions/usersActions';
 import { connect }        from 'react-redux';
 import { push }           from 'react-router-redux';
-import { httpPost }       from './helpers';
 
 class Login extends Component {
     state = {
@@ -14,11 +13,6 @@ class Login extends Component {
             error: '',
             accepted: false,
         }
-    }
-
-    loginUser = (form) => {
-        this.props.dispatch(loginUser(`email=${form.email.value}&password=${form.password.value}`));
-        event.preventDefault();
     }
 
     validateForm = (event) => {
@@ -35,7 +29,8 @@ class Login extends Component {
                 }
             }
         }
-        (result) ? this.loginUser(form) : event.preventDefault();
+        (result) ? this.props.loginUser(form) : event.preventDefault();
+        event.preventDefault()
     }
 
     isValidemail = (input) => {
@@ -83,6 +78,7 @@ class Login extends Component {
             this.setState({ password: { ...defaultState } });
         }
     }
+
     get emailClass (){
         if (this.state.email.accepted) {
             return 'accept-input';
@@ -101,11 +97,7 @@ class Login extends Component {
             return 'default-input';
         }
     }
-
-    goReg = () => {
-        this.props.dispatch(push('/register'))
-    }
-
+   
     render(){ 
         const { email, password } = this.state;
         return (
@@ -124,16 +116,24 @@ class Login extends Component {
                     <button className='button'>Submit</button>
                 </form>
 
-                <p className='link' onClick={this.goReg}>Go to Register</p>
+                <p className='link' onClick={this.props.goReg}>Go to Register</p>
             </div>
         )
     }
 }
 
-function map(state){
+function mapStateToProps(state, ...two){
     return {
-        user: state.user.user
+        user: state.userState.user
     }
 }
 
-export default connect(map)(Login);
+function mapDispatchToProps(dispatch){
+    return {
+        loginUser: (form) => dispatch(loginUser(`email=${form.email.value}&password=${form.password.value}`)),
+        goReg: () => { dispatch(push('/register')) }
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

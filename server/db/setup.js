@@ -1,4 +1,4 @@
-module.exports.initial = async () => {
+module.exports = async () => {
     const db = require('./db').getDB();
     const fs = require('fs');
     

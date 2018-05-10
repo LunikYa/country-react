@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
-import countriesReducer    from './countries';
-import userReducer         from './users';
 import { routerReducer }   from 'react-router-redux';
+import countriesReducer    from './countryReducer';
+import citiesReducer       from './cityReducer';
+import userReducer         from './usersReducer';
 
 export default combineReducers({
     countriesState: countriesReducer,
-    user:           userReducer,
+    citiesState:    citiesReducer,
+    userState:      userReducer,
     router:         routerReducer
 });
 

@@ -1,4 +1,4 @@
-import { httpPost } from '../../components/helpers';
+import { httpPost } from '../../helpers';
 import { push }   from 'react-router-redux';
 import * as types from '../constants';
 

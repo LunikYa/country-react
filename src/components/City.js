@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect }          from 'react-redux';
+import { getCountryByCity} from '../store/actions/countriesActions'
 
 class City extends Component {
     render() {
@@ -8,7 +9,7 @@ class City extends Component {
                 <h2>City</h2>
                 <ul className='list-general'>
                     {this.props.cities.map((city, i) => {
-                        return <a key={i}><li>{city.name}</li></a>
+                        return <a key={i} onClick={()=>this.props.choosed(city.countryId)}><li>{city.name}</li></a>
                     })}
                 </ul>
             </div>
@@ -16,9 +17,16 @@ class City extends Component {
     }
 }
 
-function map(state) {
+function mapStateToProps(state) {
     return {
-        cities: state.countriesState.cities,
+        cities: state.citiesState.cities,
     }
 }
-export default connect(map)(City)
+
+function mapDispatchToProps(dispatch) {
+    return {
+        choosed: (city) => { dispatch(getCountryByCity(city)) }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(City)

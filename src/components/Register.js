@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { connect }        from 'react-redux';
 import { push }           from 'react-router-redux';
-import { regUser }      from '../store/actions/usersActions';
-import { httpPost }       from './helpers';
+import { regUser }        from '../store/actions/usersActions';
 
 class Register extends Component {
     state = {

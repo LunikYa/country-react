@@ -3,33 +3,30 @@ import { connect }          from 'react-redux';
 import Country              from './Country';
 import City                 from './City';
 import { push }             from 'react-router-redux';
-import { filterCity, filterCountry, getCountries, getCities } from '../store/actions/countriesActions';
+import { filterCountries, getCountries } from '../store/actions/countriesActions';
+import { getCities, filterCities} from '../store/actions/citiesActions'
 
 class MainCountry extends Component {
     updateLists = (event) => {
         let val = event.target.value;
         if(val) 
-            this.props.dispatch(filterCountry(val));
+            this.props.countryFilter(val);
         else
-            this.props.dispatch(getCountries());
+            this.props.countriesGet();
     }
 
     updateCityList = (event) => {
         let val = event.target.value;
         if(val)
-            this.props.dispatch(filterCity(val));
-    }
-
-    goLogin = () =>{
-        this.props.dispatch(push('/'))
+            this.props.cityFilter(val);
     }
 
     get countryListRender() {
         if (!this.props.isLoaded) {
-            this.props.dispatch(getCountries())
+            this.props.countriesGet()
             return <div>Loading...</div>
-        } else if (this.props.currentCountry){
-            this.props.dispatch(getCities(this.props.currentCountry))
+        } else if (this.props.idCurrentCountry){
+            this.props.citiesGet(this.props.idCurrentCountry)
         } 
         return <div>
             <div className='conteiner-list left'>
@@ -53,10 +50,18 @@ class MainCountry extends Component {
 }
 
 function mapStateTopProps(state) {
+    console.log(state)
     return {
         isLoaded: state.countriesState.countriesLoaded,
-        currentCountry: state.countriesState.currentCountry._id
+        idCurrentCountry: state.countriesState.idCurrentCountry
     }    
 }
-
-export default connect(mapStateTopProps)(MainCountry);
+function mapDispatchToProps(dispatch){
+    return {
+        countryFilter: (val) => { dispatch(filterCountries(val))},
+        countriesGet: () => { dispatch(getCountries())},
+        cityFilter: (val) => { dispatch(filterCities(val))},
+        citiesGet: (country) => {dispatch(getCities(country))}
+    }
+}
+export default connect(mapStateTopProps, mapDispatchToProps)(MainCountry);

@@ -48,3 +48,13 @@ module.exports.filtredCities = async function (ctx) {
         ctx.response.body = [{name: 'No Matches'}];
     }
 }
+
+module.exports.getCountryByCity = async function (ctx) {
+    const db = clientDb.getDB();
+    const id = ctx.params.city;
+
+    const match = await db.collection('countries').findOne({ _id: ObjectId(id)});
+    
+    ctx.response.status = 200;
+    ctx.response.body = match;
+}

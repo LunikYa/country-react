@@ -5,13 +5,14 @@ const mongoCl    = require('./db/db');
 const app        = new Koa();
 const hostname   = '127.0.0.1';
 const port       = '3000';
+const initialDb = require('./db/setup');
 
 async function server() {
     const db    = await mongoCl.connect();
     const stats = await db.stats();
     
     if (!stats.indexes)
-        await require('./db/setup').initial();
+        await initialDb();
     
     app.use(bodyParser());     
 

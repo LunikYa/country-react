@@ -10,7 +10,7 @@ module.exports.verifyToken = async function (ctx, next) {
     } else {
         jwt.verify(token, "countries-react-key", (err, decoded) => {
             if (err) {
-                ctx.response.status = 404;
+                ctx.response.status = 403;
                 ctx.response.body = { auth: false, message: 'Failed to authenticate token.' };
             } else {
                 ctx.request.user = decoded;

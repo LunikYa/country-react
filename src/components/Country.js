@@ -3,18 +3,14 @@ import { connect }          from 'react-redux';
 import { chooseCountry, getCities} from '../store/actions/countriesActions';
 
 class Country extends Component {
-    choosed = (country) => {
-        this.props.dispatch(chooseCountry(country));
-        this.props.dispatch(getCities(country._id));
-    }
-
     render() {
         return (
                 <div className='list'>
                     <h2>Country</h2>
                     <ul className='list-general'>
-                        {this.props.countries.map((country, i) => {
-                            return <a onClick={() => this.choosed(country)} key={i}>
+                        {/* {this.main} */}
+                        { this.props.countries.map((country, i) => {
+                            return <a onClick={() => this.props.choosed(country._id)} key={i}>
                                 <li>{country.name}</li>
                             </a>
                         })}
@@ -23,10 +19,16 @@ class Country extends Component {
             )
     }
 }
-
-function map(state) {
+    
+function mapStateToProps(state) {
     return {
         countries: state.countriesState.countries,
     }
 }
-export default connect(map)(Country);
+
+function mapDispatchToProps(dispatch){
+    return {
+        choosed: (country) => { dispatch(chooseCountry(country))}
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Country);
