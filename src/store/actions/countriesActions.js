@@ -31,7 +31,7 @@ export const getCities = val => {
                         payload: cities
                     })
                 }
-            )
+            );
     }
 }
 
@@ -45,7 +45,7 @@ export const filterCountry = val =>{
                         payload: countries
                     })
                 }
-            )        
+            );  
     }
 }
 
@@ -59,7 +59,7 @@ export const filterCity = val => {
                         payload: cities
                     })
                 }
-            ) 
+            );
     }
 }
 

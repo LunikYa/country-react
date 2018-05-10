@@ -17,20 +17,22 @@ class App extends Component {
             this.props.dispatch(push('/'))
         }
     }
+
     render(){
-        return(
-        <div className='wrapp'>
-            <header><h1 className="logo">Country List</h1></header>
-            <main>
-                <ConnectedRouter history={history}>
-                    <div>
-                        <Route exact path="/"   component={Login} />
-                        <Route path="/register" component={Register} />
-                        <Route path="/country"  component={MainCountry} />
-                    </div>  
-                </ConnectedRouter>
-            </main>
-        </div>)
+        return (  
+            <div className='wrapp'>
+                <header><h1 className="logo">Country List</h1></header>
+                <main>
+                    <ConnectedRouter history={history}>
+                        <div>
+                            <Route exact path="/"   component={Login} />
+                            <Route path="/register" component={Register} />
+                            <Route path="/country"  component={MainCountry} />
+                        </div>
+                    </ConnectedRouter>
+                </main>
+            </div>
+        )
     }
 }
 

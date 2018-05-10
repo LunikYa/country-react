@@ -2,9 +2,9 @@ import { httpPost } from '../../components/helpers';
 import { push }   from 'react-router-redux';
 import * as types from '../constants';
 
-export const loginUser = tempUser => {
+export const loginUser = logUser => {
     return (dispatch, getState) => {
-        httpPost(`http://localhost:3000/login`, tempUser)
+        httpPost(`http://localhost:3000/login`, logUser)
             .then(
                 user => {
                     localStorage.setItem('token', user.token)
@@ -15,7 +15,7 @@ export const loginUser = tempUser => {
                     dispatch(push('/country'))
                 }, error => {
                     console.log('reject', error)
-                })
+                });
     }  
 }
 
@@ -31,6 +31,6 @@ export const regUser = regUser => {
                     dispatch(push('/country'))
                 }, error => {
                     console.log('reject', error)
-                })
+                });
     }
 }
