@@ -25,34 +25,28 @@ class MainCountry extends Component {
     }
 
     get countryListRender() {
-        if (!this.props.countriesCompleted) {
+        if (!this.props.currentCountry) {
             this.props.dispatch(getCountries())
             return <div>Loading...</div>
-        } 
-        if(this.props.currentCountry){
+        } else {
             this.props.dispatch(getCities(this.props.currentCountry))
+            return <div>
+                <div className='conteiner-list left'>
+                    <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
+                    <Country />
+                </div>
+                <div className='conteiner-list right'>
+                    <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
+                    <City />
+                </div>
+            </div>
         }
-
-            return  <div className='conteiner-list left'>
-                        <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
-                        <Country />
-                    </div>
     }
     
-    get cityListRender(){
-        if (!this.props.citiesCompleted) {
-            return <div>Loading...</div>
-        } 
-        return  <div className='conteiner-list right'>
-                        <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateCityList} />
-                        <City />
-                </div>            
-    }
     render(){
         return (
             <div>
                 <div>{this.countryListRender}</div>
-                <div>{this.cityListRender}</div>
             </div>           
         )
     }
@@ -60,8 +54,6 @@ class MainCountry extends Component {
 
 function mapStateTopProps(state) {
     return {
-        citiesCompleted: state.countriesState.citiesCompleted,
-        countriesCompleted: state.countriesState.countriesCompleted,
         currentCountry: state.countriesState.currentCountry._id
     }    
 }

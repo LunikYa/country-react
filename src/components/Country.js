@@ -5,22 +5,22 @@ import { chooseCountry, getCities} from '../store/actions/countriesActions';
 class Country extends Component {
     choosed = (country) => {
         this.props.dispatch(chooseCountry(country));
-        this.props.dispatch(getCities(country._id))
+        this.props.dispatch(getCities(country._id));
     }
 
     render() {
         return (
-            <div className='list'>
-                <h2>Country</h2>
-                <ul className='list-general'>
-                    {this.props.countries.map((country, i)=>{                        
-                        return  <a onClick={() => this.choosed(country)} key={i}>
-                                    <li>{country.name}</li>
-                                </a>
-                    })}
-                </ul>
-            </div>
-        )
+                <div className='list'>
+                    <h2>Country</h2>
+                    <ul className='list-general'>
+                        {this.props.countries.map((country, i) => {
+                            return <a onClick={() => this.choosed(country)} key={i}>
+                                <li>{country.name}</li>
+                            </a>
+                        })}
+                    </ul>
+                </div>
+            )
     }
 }
 

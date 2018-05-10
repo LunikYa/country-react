@@ -12,7 +12,7 @@ class City extends Component {
                     })}
                 </ul>
             </div>
-        )
+        )        
     }
 }
 
