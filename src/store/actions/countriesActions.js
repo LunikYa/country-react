@@ -2,7 +2,7 @@ import { http } from '../../helpers';
 import * as types from '../constants';
 
 export const getCountries = () => {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         http('http://localhost:3000/countries', 'GET')
             .then(
                 countries => {

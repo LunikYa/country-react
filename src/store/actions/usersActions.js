@@ -3,7 +3,7 @@ import { push }   from 'react-router-redux';
 import * as types from '../constants';
 
 export const loginUser = logUser => {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         http(`http://localhost:3000/login`, 'POST', logUser)
             .then(
                 user => {
@@ -20,7 +20,7 @@ export const loginUser = logUser => {
 }
 
 export const regUser = regUser => {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         http(`http://localhost:3000/register`, 'POST', regUser)
             .then(
                 user => {
