@@ -22,7 +22,7 @@ class Register extends Component {
             accepted: false
         },
     }
-    
+
     validateForm = (event) => {
         let result = true,
             form = event.target;
@@ -42,9 +42,18 @@ class Register extends Component {
             }
         }
         if (result)
-            this.props.createUser(form);
-            
+            this.userCreate(form);
+
         event.preventDefault();
+    }
+
+    userCreate = (form) => {
+        this.props.createUser(
+           `email=${form['email'].value}&
+            password=${form['password'].value}&
+            name=${form['name'].value}&
+            surname=${form['surname'].value}`
+        );
     }
 
     isValidemail = (input) => {
@@ -188,14 +197,8 @@ class Register extends Component {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        createUser: (form) => {
-            dispatch(regUser
-                (
-                `email=${form['email'].value}&
-                password=${form['password'].value}&
-                name=${form['name'].value}&
-                surname=${form['surname'].value}`
-                ))
+        createUser: (user) => {
+            dispatch(regUser(user))
         },
         goLogin: () => { dispatch(push('/')) }
     }

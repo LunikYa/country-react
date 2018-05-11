@@ -24,10 +24,13 @@ class MainCountry extends Component {
     get countryListRender() {
         if (!this.props.isLoaded) {
             this.props.countriesGet()
+            
             return <div>Loading...</div>
+
         } else if (this.props.idCurrentCountry){
             this.props.citiesGet(this.props.idCurrentCountry)
-        } 
+        }
+
         return <div>
                     <div className='conteiner-list left'>
                         <input type="text" placeholder='Filter' className='filter-input' onInput={this.updateLists} />
@@ -55,6 +58,7 @@ function mapStateTopProps(state) {
         idCurrentCountry: state.countriesState.idCurrentCountry
     }    
 }
+
 function mapDispatchToProps(dispatch){
     return {
         countryFilter: (val) => { dispatch(filterCountries(val))},
@@ -63,4 +67,5 @@ function mapDispatchToProps(dispatch){
         citiesGet: (country) => {dispatch(getCities(country))}
     }
 }
+
 export default connect(mapStateTopProps, mapDispatchToProps)(MainCountry);

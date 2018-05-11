@@ -134,7 +134,6 @@ function mapDispatchToProps(dispatch){
     return {
         loginUser: (form) => dispatch(loginUser(`email=${form.email.value}&password=${form.password.value}`)),
         goReg: () => { dispatch(push('/register')) }
-
     }
 }
 
