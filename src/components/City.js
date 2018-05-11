@@ -25,7 +25,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        choosed: (city) => { dispatch(getCountryByCity(city)) }
+        choosed: (country) => { dispatch(getCountryByCity(country)) }
     }
 }
 

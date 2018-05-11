@@ -36,9 +36,9 @@ export const chooseCountry = (countryId) => {
     }
 }
 
-export const getCountryByCity = (cityId) => {
+export const getCountryByCity = (countryId) => {
     return (dispatch) => {
-        http(`http://localhost:3000/country/${cityId}`, 'GET')
+        http(`http://localhost:3000/country/${countryId}`, 'GET')
             .then(
                 country => {
                     dispatch({
